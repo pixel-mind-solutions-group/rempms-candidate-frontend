@@ -1,0 +1,8 @@
+export enum FolderType {
+
+  CANDIDATE = "CANDIDATE",
+  DRAFT = "DRAFT",
+  RECRUITMENT = "RECRUITMENT",
+  EMPLOYEE = "EMPLOYEE"
+
+}

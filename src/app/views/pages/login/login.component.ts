@@ -24,6 +24,9 @@ import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Subject, takeUntil } from 'rxjs';
+import { AuthStatus } from '../../../enums/AuthStatus';
+import { UserRoles } from '../../../enums/UserRole';
+import { UserDetailsResponseDTO } from '../../../model/user/user-details/UserDetailsResponseDTO';
 
 @Component({
   selector: 'app-login',
@@ -132,9 +135,25 @@ export class LoginComponent implements OnInit {
       (response) => {
         if (response.status === 'OK') {
           sessionStorage.setItem('userDetails', JSON.stringify(response.data));
+          const userDetails: UserDetailsResponseDTO = response.data;
 
           this.loading = false;
-          this.router.navigate(['/job-vacancies']);
+
+          if (
+            userDetails.userHasApplicationScopeHasUserRole.userRole.role ===
+            UserRoles.CANDIDATE_ADMIN
+          ) {
+            this.authService.setAuthenticationStatus(AuthStatus.YES);
+            this.router.navigate(['/job-vacancies']);
+          } else {
+            this.authService.setAuthenticationStatus(AuthStatus.NO);
+            Swal.fire({
+              title: 'Error!',
+              text: 'Unauthorized Access!',
+              icon: 'error',
+              confirmButtonText: 'OK',
+            });
+          }
         } else {
           Swal.fire({
             title: 'Error!',

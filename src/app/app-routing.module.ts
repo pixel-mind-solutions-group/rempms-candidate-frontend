@@ -3,7 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
+import { Page500Component } from './views/pages/page500/page500.component';
 import { DefaultLayoutComponent } from './containers';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -24,11 +26,13 @@ const routes: Routes = [
           import('./views/job-vacancies/job-vacancies.module').then(
             (m) => m.JobVacanciesModule
           ),
+        canActivate: [AuthGuard],
       },
       {
         path: 'my-jobs',
         loadChildren: () =>
           import('./views/my-jobs/my-jobs.module').then((m) => m.MyJobsModule),
+        canActivate: [AuthGuard],
       },
       {
         path: 'my-profiles',
@@ -36,6 +40,7 @@ const routes: Routes = [
           import('./views/my-profiles/my-profiles.module').then(
             (m) => m.MyProfilesModule
           ),
+        canActivate: [AuthGuard],
       },
       {
         path: 'my-preferences',
@@ -43,6 +48,7 @@ const routes: Routes = [
           import('./views/my-preferences/my-preferences.module').then(
             (m) => m.MyPreferencesModule
           ),
+        canActivate: [AuthGuard],
       },
       {
         path: 'common-profile',
@@ -50,6 +56,7 @@ const routes: Routes = [
           import(
             './views/my-profiles/common-profile/common-profile.module'
           ).then((m) => m.CommonProfileModule),
+        canActivate: [AuthGuard],
       },
       // {
       //   path: 'buttons',
@@ -105,6 +112,13 @@ const routes: Routes = [
     component: RegisterComponent,
     data: {
       title: 'Register Page',
+    },
+  },
+  {
+    path: 'unauthorized',
+    component: Page500Component,
+    data: {
+      title: 'Unauthorized Page',
     },
   },
   // {

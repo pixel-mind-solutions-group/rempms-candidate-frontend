@@ -1,9 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, catchError, throwError } from 'rxjs';
-import { environment } from 'src/app/environments/environment';
-import { CommonResponse } from 'src/app/model/commonResponse/CommonResponse';
-import { UserRequestDTO } from 'src/app/model/user/UserRequestDTO';
+import { environment } from '../../../environments/environment';
+import { CommonResponse } from '../../../model/commonResponse/CommonResponse';
+import { UserRegisterDTO } from '../../../model/user/register/UserRegisterDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -22,14 +22,23 @@ export class UserService {
     console.info(
       'Calling iam service to get user permissions list by token and uuid...'
     );
-    return this.http
-      .post<CommonResponse>(userDetailsApi, data)
-      .pipe(
-        map((response) => response),
-        catchError((error) => {
-          return this.handleError(error);
-        })
-      );
+    return this.http.post<CommonResponse>(userDetailsApi, data).pipe(
+      map((response) => response),
+      catchError((error) => {
+        return this.handleError(error);
+      })
+    );
+  }
+
+  register(userRegister: UserRegisterDTO): Observable<any> {
+    let registerAuthApi = this.userApi + '/non-ad/create';
+    console.info('Calling iam service to register the non-ad user...');
+    return this.http.post<CommonResponse>(registerAuthApi, userRegister).pipe(
+      map((response) => response),
+      catchError((error) => {
+        return this.handleError(error);
+      })
+    );
   }
 
   /**

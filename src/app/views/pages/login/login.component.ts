@@ -11,7 +11,6 @@ import {
   RowComponent,
   ColComponent,
   CardGroupComponent,
-  TextColorDirective,
   CardComponent,
   CardBodyComponent,
   FormDirective,
@@ -40,7 +39,6 @@ import { UserDetailsResponseDTO } from '../../../model/user/user-details/UserDet
     RowComponent,
     ColComponent,
     CardGroupComponent,
-    TextColorDirective,
     CardComponent,
     CardBodyComponent,
     FormDirective,
@@ -119,7 +117,7 @@ export class LoginComponent implements OnInit {
           this.loading = false;
           Swal.fire({
             title: 'Error!',
-            text: 'Network Error.',
+            text: error.error.message,
             icon: 'error',
             confirmButtonText: 'OK',
           });
@@ -141,7 +139,7 @@ export class LoginComponent implements OnInit {
 
           if (
             userDetails.userHasApplicationScopeHasUserRole.userRole.role ===
-            UserRoles.CANDIDATE_ADMIN
+            UserRoles.CANDIDATE
           ) {
             this.authService.setAuthenticationStatus(AuthStatus.YES);
             this.router.navigate(['/job-vacancies']);

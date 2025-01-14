@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { environment } from 'src/app/environments/environment';
-import { CommonProfileDraft } from 'src/app/model/candidate/commonProfileDraft/CommonProfileDraft';
+import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs/internal/Observable';
-import { CommonResponse } from 'src/app/model/commonResponse/CommonResponse';
-import { DocumentDetails } from 'src/app/model/candidate/cvCertificateDocuments/DocumentDetails';
+import { CommonResponse } from '../../model/commonResponse/CommonResponse';
 
 @Injectable({
   providedIn: 'root',

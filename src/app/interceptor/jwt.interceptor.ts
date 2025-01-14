@@ -20,7 +20,7 @@ export class JwtInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (this.isTokenEndpoint(request)) {
+    if (this.isTokenEndpoint(request) || this.isNonAdUserEndpoint(request)) {
       return next.handle(request);
     }
 
@@ -84,5 +84,9 @@ export class JwtInterceptor implements HttpInterceptor {
 
   private isTokenEndpoint(request: HttpRequest<any>): boolean {
     return request.url.includes('/v1/auth/user/token');
+  }
+
+  private isNonAdUserEndpoint(request: HttpRequest<any>): boolean {
+    return request.url.includes('/v1/user/non-ad/create');
   }
 }

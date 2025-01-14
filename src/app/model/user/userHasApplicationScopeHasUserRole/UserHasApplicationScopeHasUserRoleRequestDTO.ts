@@ -1,8 +1,10 @@
 import { RoleHasModuleHasComponentHasElementRequestDTO } from '../hasElement/RoleHasModuleHasComponentHasElementRequestDTO';
 
 export interface UserHasApplicationScopeHasUserRoleRequestDTO {
-  userHasApplicationScopeHasUserRoleId: number;
-  applicationScopeId: number;
-  userRoleId: number;
+  userHasApplicationScopeHasUserRoleId: string;
+  applicationScopeId: string;
+  applicationScope: string;
+  userRoleId: string;
+  userRole: string;
   hasElements: RoleHasModuleHasComponentHasElementRequestDTO[];
 }

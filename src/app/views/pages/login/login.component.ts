@@ -139,7 +139,9 @@ export class LoginComponent implements OnInit {
 
           if (
             userDetails.userHasApplicationScopeHasUserRole.userRole.role ===
-            UserRoles.CANDIDATE
+              UserRoles.CANDIDATE ||
+            userDetails.userHasApplicationScopeHasUserRole.userRole.role ===
+              UserRoles.ADMIN
           ) {
             this.authService.setAuthenticationStatus(AuthStatus.YES);
             this.router.navigate(['/job-vacancies']);

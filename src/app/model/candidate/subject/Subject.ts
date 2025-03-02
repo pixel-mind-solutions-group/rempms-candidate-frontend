@@ -1,7 +1,6 @@
-import {Scheme} from "../scheme/Scheme";
+import { Scheme } from '../scheme/Scheme';
 
 export class Subject {
-
   id: string | any;
 
   subjectName: string | any;
@@ -9,5 +8,4 @@ export class Subject {
   schoolEduQualification: string | any;
 
   scheme: Scheme | any;
-
 }

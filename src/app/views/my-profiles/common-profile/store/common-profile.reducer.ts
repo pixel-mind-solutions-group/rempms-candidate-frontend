@@ -35,7 +35,7 @@ export const commonProfileReducer = createReducer(
       loadCommonProfileDraftResponse: null,
       error: null,
       loading: false,
-    })
+    }),
   ),
   // Handles the action to save common profile data failure
   on(CommonProfileActions.saveCommonProfileDataFailure, (state, { error }) => ({
@@ -62,7 +62,7 @@ export const commonProfileReducer = createReducer(
       loadCommonProfileDraftResponse: commonResponse,
       error: null,
       loading: false,
-    })
+    }),
   ),
   // Handles the action to find common profile data by candidate id failure
   on(
@@ -73,6 +73,6 @@ export const commonProfileReducer = createReducer(
       loadCommonProfileDraftResponse: null,
       error: error,
       loading: false,
-    })
-  )
+    }),
+  ),
 );

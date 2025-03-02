@@ -17,7 +17,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
   constructor(
     private classToggler: ClassToggleService,
-    private router: Router
+    private router: Router,
   ) {
     super();
   }

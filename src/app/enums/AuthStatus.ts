@@ -1,4 +1,4 @@
 export enum AuthStatus {
-    YES = 'yes',
-    NO = 'no'
+  YES = 'yes',
+  NO = 'no',
 }

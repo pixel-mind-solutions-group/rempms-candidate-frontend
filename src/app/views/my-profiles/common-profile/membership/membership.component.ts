@@ -35,7 +35,7 @@ export class MembershipComponent implements OnInit {
     private formBuilder: FormBuilder,
     private countryService: CountryService,
     private membershipTypeService: MembershipTypeService,
-    private draftService: CommonProfileDraftService
+    private draftService: CommonProfileDraftService,
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +60,7 @@ export class MembershipComponent implements OnInit {
         this.emptyListErrorVisible = false;
 
         const mergedArray: Membership[] = this.membershipTempList.concat(
-          this.tableList
+          this.tableList,
         );
 
         // Create an instance of CommonProfileDraft and assign Membership
@@ -91,7 +91,7 @@ export class MembershipComponent implements OnInit {
 
                 this.resetCommonProfileForm();
                 this.findDraftByIdCandidate(
-                  sessionStorage.getItem('idCandidate') ?? '{}'
+                  sessionStorage.getItem('idCandidate') ?? '{}',
                 );
 
                 this.showUpdateButton = false;
@@ -102,7 +102,7 @@ export class MembershipComponent implements OnInit {
             },
             (error) => {
               console.log('createOrModifyCommonProfileDraft() >> ' + error.get);
-            }
+            },
           );
       }
     } else {
@@ -121,7 +121,7 @@ export class MembershipComponent implements OnInit {
         selectedMembershipTypeId != '-1'
           ? this.membershipTypes.find(
               (membershipType: MembershipType) =>
-                membershipType.id == selectedMembershipTypeId
+                membershipType.id == selectedMembershipTypeId,
             )
           : null;
 
@@ -129,7 +129,7 @@ export class MembershipComponent implements OnInit {
       const selectedCountry =
         selectedCountryId != '-1'
           ? this.countries.find(
-              (country: Country) => country.idCountry == selectedCountryId
+              (country: Country) => country.idCountry == selectedCountryId,
             )
           : null;
 
@@ -183,7 +183,7 @@ export class MembershipComponent implements OnInit {
 
             this.resetCommonProfileForm();
             this.findDraftByIdCandidate(
-              sessionStorage.getItem('idCandidate') ?? '{}'
+              sessionStorage.getItem('idCandidate') ?? '{}',
             );
 
             this.showUpdateButton = false;
@@ -194,7 +194,7 @@ export class MembershipComponent implements OnInit {
         },
         (error) => {
           console.log('deleteMembership() >> ' + error.get);
-        }
+        },
       );
   }
 
@@ -216,24 +216,24 @@ export class MembershipComponent implements OnInit {
             (membership: Membership) => {
               const selectedMembershipType = this.membershipTypes.find(
                 (membershipType: MembershipType) =>
-                  membershipType.id == membership.idMembershipType
+                  membershipType.id == membership.idMembershipType,
               );
 
               const selectedCountry = this.countries.find(
-                (country: Country) => country.idCountry == membership.idCountry
+                (country: Country) => country.idCountry == membership.idCountry,
               );
 
               membership.membershipTypeName = selectedMembershipType.name;
               membership.countryName = selectedCountry.countryName;
 
               this.tableList.push(membership);
-            }
+            },
           );
         }
       },
       (error) => {
         console.log('findDraftByIdCandidate() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -246,7 +246,7 @@ export class MembershipComponent implements OnInit {
       },
       (error) => {
         console.log('getAllMembershipTypes() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -259,7 +259,7 @@ export class MembershipComponent implements OnInit {
       },
       (error) => {
         console.log('getAllActiveCountries() >> ' + error.get);
-      }
+      },
     );
   }
 

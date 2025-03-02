@@ -1,20 +1,18 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {CommonResponse} from "../../model/commonResponse/CommonResponse";
-import {environment} from "../../environments/environment";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { CommonResponse } from '../../model/commonResponse/CommonResponse';
+import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HigherEducationService {
+  private urlHigherEducationApi =
+    `${environment.baseUrl}` + '/candidate/v1/getById';
 
-  private urlHigherEducationApi = `${environment.baseUrl}` + "/candidate/v1/getById";
-
-  constructor(private httpClient: HttpClient) {
-  }
+  constructor(private httpClient: HttpClient) {}
 
   getById(id: string) {
-
     const url = this.urlHigherEducationApi + '/getById';
 
     // Constructing request parameters
@@ -24,10 +22,8 @@ export class HigherEducationService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      params: params
-    }
+      params: params,
+    };
     return this.httpClient.get<CommonResponse>(url, httpOptions);
-
   }
-
 }

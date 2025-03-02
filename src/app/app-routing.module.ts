@@ -24,7 +24,7 @@ const routes: Routes = [
         path: 'job-vacancies',
         loadChildren: () =>
           import('./views/job-vacancies/job-vacancies.module').then(
-            (m) => m.JobVacanciesModule
+            (m) => m.JobVacanciesModule,
           ),
         canActivate: [AuthGuard],
       },
@@ -38,7 +38,7 @@ const routes: Routes = [
         path: 'my-profiles',
         loadChildren: () =>
           import('./views/my-profiles/my-profiles.module').then(
-            (m) => m.MyProfilesModule
+            (m) => m.MyProfilesModule,
           ),
         canActivate: [AuthGuard],
       },
@@ -46,7 +46,7 @@ const routes: Routes = [
         path: 'my-preferences',
         loadChildren: () =>
           import('./views/my-preferences/my-preferences.module').then(
-            (m) => m.MyPreferencesModule
+            (m) => m.MyPreferencesModule,
           ),
         canActivate: [AuthGuard],
       },

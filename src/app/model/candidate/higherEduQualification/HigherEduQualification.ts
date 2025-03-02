@@ -1,5 +1,4 @@
 export class HigherEduQualification {
-
   id: string | any;
 
   name: string | any;
@@ -7,5 +6,4 @@ export class HigherEduQualification {
   description: string | any;
 
   awardType: string | any;
-
 }

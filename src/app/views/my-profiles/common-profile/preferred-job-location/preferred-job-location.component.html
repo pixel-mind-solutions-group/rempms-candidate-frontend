@@ -1,5 +1,4 @@
 <c-row ngPreserveWhitespaces>
-
   <c-col xs="12">
     <c-card class="mb-3">
       <c-card-header>
@@ -7,27 +6,34 @@
       </c-card-header>
       <c-card-body>
         <div class="row">
-
           <form [formGroup]="preferredJobLocationForm">
-
-            <input id="idPreferredJobLocation" formControlName="idPreferredJobLocation" type="hidden">
+            <input
+              id="idPreferredJobLocation"
+              formControlName="idPreferredJobLocation"
+              type="hidden"
+            />
 
             <div class="col-md-3" *ngFor="let country of countries">
               <div class="mb-2">
                 <div class="form-check">
-                  <input class="form-check-input"
-                         type="checkbox" value="{{country.idCountry}}"
-                         formControlName="jobLocation_{{country.idCountry}}" style="cursor: pointer"/>
-                  <label class="form-check-label"
-                         [for]="'jobLocation_'+country.idCountry">{{country.countryName}}</label>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="{{ country.idCountry }}"
+                    formControlName="jobLocation_{{ country.idCountry }}"
+                    style="cursor: pointer"
+                  />
+                  <label
+                    class="form-check-label"
+                    [for]="'jobLocation_' + country.idCountry"
+                    >{{ country.countryName }}</label
+                  >
                 </div>
               </div>
             </div>
           </form>
-
         </div>
       </c-card-body>
-
     </c-card>
   </c-col>
 
@@ -35,18 +41,32 @@
     <c-card class="mb-4">
       <c-card-body>
         <div class="d-flex justify-content-end">
-          <input type="button" class="btn btn-outline-dark btn-sm" value="<<Back" (click)="redirectToBack()"/> &nbsp;
-          &nbsp;
-          <Button cButton class="me-1" color="success" size="sm" mat-button style="color: white"
-                  (click)="createOrModifyCommonProfileDraft()">&nbsp;Save&nbsp;
+          <input
+            type="button"
+            class="btn btn-outline-dark btn-sm"
+            value="<<Back"
+            (click)="redirectToBack()"
+          />
+          &nbsp; &nbsp;
+          <Button
+            cButton
+            class="me-1"
+            color="success"
+            size="sm"
+            mat-button
+            style="color: white"
+            (click)="createOrModifyCommonProfileDraft()"
+            >&nbsp;Save&nbsp;
           </Button>
 
-          <input type="button" class="btn btn-outline-dark btn-sm" value="Next>>" (click)="redirectToNext()"/>
+          <input
+            type="button"
+            class="btn btn-outline-dark btn-sm"
+            value="Next>>"
+            (click)="redirectToNext()"
+          />
         </div>
       </c-card-body>
     </c-card>
   </c-col>
-
 </c-row>
-
-

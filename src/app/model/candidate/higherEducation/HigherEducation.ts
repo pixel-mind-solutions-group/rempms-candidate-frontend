@@ -1,6 +1,4 @@
-
 export class HigherEducation {
-
   idHigherEducation: string;
   instituteOfStudy: string;
   affiliatedInstitute: string;
@@ -20,7 +18,6 @@ export class HigherEducation {
   areaOfStudy: string;
 
   constructor() {
-
     this.idHigherEducation = '';
     this.instituteOfStudy = '';
     this.affiliatedInstitute = '';
@@ -37,7 +34,5 @@ export class HigherEducation {
     this.higherEduQualification = '';
     this.areaOfStudy = '';
     this.awardTypeValue = '';
-
   }
-
 }

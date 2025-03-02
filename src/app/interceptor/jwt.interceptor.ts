@@ -18,7 +18,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     if (this.isTokenEndpoint(request) || this.isNonAdUserEndpoint(request)) {
       return next.handle(request);
@@ -29,7 +29,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
   private handleRequestWithToken(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     const token = sessionStorage.getItem('accessToken');
     const authRequest = request.clone({
@@ -50,7 +50,7 @@ export class JwtInterceptor implements HttpInterceptor {
       const timeDifferenceMinutes =
         tokenExpiredTime !== null
           ? Math.floor(
-              (tokenExpiredTime.getTime() - dateNow.getTime()) / (1000 * 60)
+              (tokenExpiredTime.getTime() - dateNow.getTime()) / (1000 * 60),
             )
           : 0;
 

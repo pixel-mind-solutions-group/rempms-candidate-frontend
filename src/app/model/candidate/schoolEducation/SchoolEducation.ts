@@ -1,25 +1,23 @@
-import {SubjectHasSchoolEduGrade} from "./SubjectHasSchoolEduGrade";
+import { SubjectHasSchoolEduGrade } from './SubjectHasSchoolEduGrade';
 
 export class SchoolEducation {
+  idSchoolEducation: string | any;
 
-    idSchoolEducation: string | any;
+  schoolEduQualification: string | any; //enum : school qualification
 
-    schoolEduQualification: string | any; //enum : school qualification
+  school: string | any; //school/institute
 
-    school: string | any; //school/institute
+  achievedOn: string | any;
 
-    achievedOn: string | any;
+  idLanguage: string | any; //communication-service //medium
 
-    idLanguage: string | any; //communication-service //medium
+  idCountry: string | any; //location-service
 
-    idCountry: string | any; //location-service
+  description: string | any;
 
-    description: string | any;
+  idScheme: string | any;
 
-    idScheme: string | any;
+  schemeName: string | any;
 
-    schemeName: string | any;
-
-    subjectHasSchoolEduGrades: SubjectHasSchoolEduGrade[] | any;
-
+  subjectHasSchoolEduGrades: SubjectHasSchoolEduGrade[] | any;
 }

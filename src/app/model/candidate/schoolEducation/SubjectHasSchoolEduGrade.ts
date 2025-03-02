@@ -1,5 +1,4 @@
 export class SubjectHasSchoolEduGrade {
-
   idSubjectHasSchoolEduGradeDTO: string | any;
 
   idSubject: string | any;
@@ -9,5 +8,4 @@ export class SubjectHasSchoolEduGrade {
   idSchoolEducation: string | any;
 
   grade: string | any; //enum : grade
-
 }

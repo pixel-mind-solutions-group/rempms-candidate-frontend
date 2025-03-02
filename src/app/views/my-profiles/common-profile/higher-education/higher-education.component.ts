@@ -46,7 +46,7 @@ export class HigherEducationComponent implements OnInit {
     private areaOfStudyService: AreaOfStudyService,
     private languagesService: LanguageService,
     private countryService: CountryService,
-    private higherEduQualificationService: HigherEduQualificationService
+    private higherEduQualificationService: HigherEduQualificationService,
   ) {}
 
   ngOnInit(): void {
@@ -82,16 +82,16 @@ export class HigherEducationComponent implements OnInit {
       const selectedAreaOfStudyId =
         this.higherEducationForm.get('idAreaOfStudy')?.value;
       const selectedAreaOfStudy = this.areaOfStudies.find(
-        (area: AreaOfStudy) => area.id == selectedAreaOfStudyId
+        (area: AreaOfStudy) => area.id == selectedAreaOfStudyId,
       );
 
       // getting higher edu qualification name
       const selectedHigherEduQualificationId = this.higherEducationForm.get(
-        'idHigherEduQualification'
+        'idHigherEduQualification',
       )?.value;
       const selectedHigherEduQualification = this.higherEduQualifications.find(
         (higherEduQua: HigherEduQualification) =>
-          higherEduQua.id == selectedHigherEduQualificationId
+          higherEduQua.id == selectedHigherEduQualificationId,
       );
 
       // getting award type name
@@ -132,7 +132,7 @@ export class HigherEducationComponent implements OnInit {
   }
 
   fetchHigherEduQualificationById(
-    id: string
+    id: string,
   ): Observable<HigherEduQualification> {
     return this.higherEduQualificationService.getById(id).pipe(
       map((response) => {
@@ -146,7 +146,7 @@ export class HigherEducationComponent implements OnInit {
         console.error('fetchHigherEduQualificationById() error:', error);
 
         return throwError('Something went wrong, please try again later.');
-      })
+      }),
     );
   }
 
@@ -158,7 +158,7 @@ export class HigherEducationComponent implements OnInit {
         this.emptyListErrorVisible = false;
 
         const mergedArray: HigherEducation[] = this.tempList.concat(
-          this.tableList
+          this.tableList,
         );
 
         // Create an instance of CommonProfileDraft and assign higherEducation
@@ -189,7 +189,7 @@ export class HigherEducationComponent implements OnInit {
 
                 this.resetCommonProfileForm();
                 this.findDraftByIdCandidate(
-                  sessionStorage.getItem('idCandidate') ?? '{}'
+                  sessionStorage.getItem('idCandidate') ?? '{}',
                 );
 
                 this.showUpdateButton = false;
@@ -200,7 +200,7 @@ export class HigherEducationComponent implements OnInit {
             },
             (error) => {
               console.log('createOrModifyCommonProfileDraft() >> ' + error.get);
-            }
+            },
           );
       }
     } else {
@@ -225,14 +225,14 @@ export class HigherEducationComponent implements OnInit {
             (higherEducation: HigherEducation) => {
               // getting area of study name
               const selectedAreaOfStudy = this.areaOfStudies.find(
-                (area: AreaOfStudy) => area.id == higherEducation.idAreaOfStudy
+                (area: AreaOfStudy) => area.id == higherEducation.idAreaOfStudy,
               );
 
               // getting higher edu qualification name
               const selectedHigherEduQualification =
                 this.higherEduQualifications.find(
                   (higherEduQua: HigherEduQualification) =>
-                    higherEduQua.id == higherEducation.idHigherEduQualification
+                    higherEduQua.id == higherEducation.idHigherEduQualification,
                 );
 
               // getting award type name
@@ -246,13 +246,13 @@ export class HigherEducationComponent implements OnInit {
               higherEducation.awardTypeValue = selectedAwardType;
 
               this.tableList.push(higherEducation);
-            }
+            },
           );
         }
       },
       (error) => {
         console.log('findDraftByIdCandidate() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -265,7 +265,7 @@ export class HigherEducationComponent implements OnInit {
       },
       (error) => {
         console.log('getAllActiveAreOfStudies() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -278,7 +278,7 @@ export class HigherEducationComponent implements OnInit {
       },
       (error) => {
         console.log('getAllActiveCountries() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -291,7 +291,7 @@ export class HigherEducationComponent implements OnInit {
       },
       (error) => {
         console.log('getAllActiveLanguages() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -306,7 +306,7 @@ export class HigherEducationComponent implements OnInit {
         },
         (error) => {
           console.log('getAllActiveHigherEduQualification() >> ' + error.get);
-        }
+        },
       );
   }
 
@@ -384,7 +384,7 @@ export class HigherEducationComponent implements OnInit {
             this.resetCommonProfileForm();
             this.tableList = [];
             this.findDraftByIdCandidate(
-              sessionStorage.getItem('idCandidate') ?? '{}'
+              sessionStorage.getItem('idCandidate') ?? '{}',
             );
           } else {
             Swal.fire('Cancelled', data.message, 'error');
@@ -392,7 +392,7 @@ export class HigherEducationComponent implements OnInit {
         },
         (error) => {
           console.log('deleteHigherEducation() >> ' + error.get);
-        }
+        },
       );
   }
 }

@@ -51,7 +51,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
   ) {}
 
   ngOnInit(): void {
@@ -152,7 +152,7 @@ export class RegisterComponent implements OnInit {
             icon: 'error',
             confirmButtonText: 'OK',
           });
-        }
+        },
       );
     } else {
       this.registerForm.markAllAsTouched();

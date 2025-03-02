@@ -63,7 +63,7 @@ export class PersonalDetailsComponent implements OnInit {
     private cityService: CityService,
     private languageService: LanguageService,
     private preferredCommunicationMethodService: PreferredCommunicationMethodService,
-    private store: Store<{ commonProfileState: CommonProfileState }>
+    private store: Store<{ commonProfileState: CommonProfileState }>,
   ) {}
 
   ngOnInit(): void {
@@ -122,7 +122,7 @@ export class PersonalDetailsComponent implements OnInit {
     if (selectedCountryId !== '-1' && selectedProvinceId !== '-1') {
       this.getAllActiveDistrictsByCountryAndProvince(
         selectedProvinceId,
-        selectedCountryId
+        selectedCountryId,
       );
     }
   }
@@ -141,7 +141,7 @@ export class PersonalDetailsComponent implements OnInit {
       this.getAllActiveCitiesByCountryProvinceAndDistrict(
         selectedCountryId,
         selectedProvinceId,
-        selectedDistrictId
+        selectedDistrictId,
       );
     }
   }
@@ -160,7 +160,7 @@ export class PersonalDetailsComponent implements OnInit {
       },
       (error) => {
         console.log('getAllActiveCountries() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -173,18 +173,18 @@ export class PersonalDetailsComponent implements OnInit {
       },
       (error) => {
         console.log('getAllActiveProvincesByCountry() >> ' + error.get);
-      }
+      },
     );
   }
 
   private getAllActiveDistrictsByCountryAndProvince(
     selectedProvinceId: string,
-    selectedCountryId: string
+    selectedCountryId: string,
   ) {
     this.districtService
       .getAllActiveDistrictsByCountryAndProvince(
         selectedProvinceId,
-        selectedCountryId
+        selectedCountryId,
       )
       .subscribe(
         (data) => {
@@ -194,22 +194,22 @@ export class PersonalDetailsComponent implements OnInit {
         },
         (error) => {
           console.log(
-            'getAllActiveDistrictsByCountryAndProvince() >> ' + error.get
+            'getAllActiveDistrictsByCountryAndProvince() >> ' + error.get,
           );
-        }
+        },
       );
   }
 
   private getAllActiveCitiesByCountryProvinceAndDistrict(
     selectedCountryId: string,
     selectedProvinceId: string,
-    selectedDistrictId: string
+    selectedDistrictId: string,
   ) {
     this.cityService
       .getAllActiveCitiesByCountryProvinceAndDistrict(
         selectedCountryId,
         selectedProvinceId,
-        selectedDistrictId
+        selectedDistrictId,
       )
       .subscribe(
         (data) => {
@@ -219,9 +219,9 @@ export class PersonalDetailsComponent implements OnInit {
         },
         (error) => {
           console.log(
-            'getAllActiveCitiesByCountryProvinceAndDistrict() >> ' + error.get
+            'getAllActiveCitiesByCountryProvinceAndDistrict() >> ' + error.get,
           );
-        }
+        },
       );
   }
 
@@ -234,7 +234,7 @@ export class PersonalDetailsComponent implements OnInit {
       },
       (error) => {
         console.log('getAllActiveLanguages() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -249,7 +249,7 @@ export class PersonalDetailsComponent implements OnInit {
         },
         (error) => {
           console.log('getAllActivePreferredCommunications() >> ' + error.get);
-        }
+        },
       );
   }
 
@@ -269,13 +269,13 @@ export class PersonalDetailsComponent implements OnInit {
             this.commonProfileDraft = data.data;
 
             this.getActiveProvinceById(
-              this.commonProfileDraft.personalDetail.idProvince
+              this.commonProfileDraft.personalDetail.idProvince,
             );
             this.getActiveDistrictById(
-              this.commonProfileDraft.personalDetail.idDistrict
+              this.commonProfileDraft.personalDetail.idDistrict,
             );
             this.getActiveCityById(
-              this.commonProfileDraft.personalDetail.idCity
+              this.commonProfileDraft.personalDetail.idCity,
             );
             this.idDraft = this.commonProfileDraft.id;
             this.idCandidate = this.commonProfileDraft.idCandidate;
@@ -316,7 +316,7 @@ export class PersonalDetailsComponent implements OnInit {
         },
         (error) => {
           console.log('findDraftByIdCandidate() >> ' + error.get);
-        }
+        },
       );
   }
 
@@ -330,7 +330,7 @@ export class PersonalDetailsComponent implements OnInit {
       },
       (error) => {
         console.log('getActiveProvinceById() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -344,7 +344,7 @@ export class PersonalDetailsComponent implements OnInit {
       },
       (error) => {
         console.log('getActiveDistrictById() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -358,7 +358,7 @@ export class PersonalDetailsComponent implements OnInit {
       },
       (error) => {
         console.log('getActiveCityById() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -407,11 +407,11 @@ export class PersonalDetailsComponent implements OnInit {
         CommonProfileActions.saveCommonProfileData({
           commonProfileDraft: commonProfileDraft,
           documents: this.files,
-        })
+        }),
       );
 
       this.selectCommonProfileDraftSavedResponse$ = this.store.select(
-        selectCommonProfileDraftSaveResponse
+        selectCommonProfileDraftSaveResponse,
       );
 
       this.selectCommonProfileDraftSavedResponse$

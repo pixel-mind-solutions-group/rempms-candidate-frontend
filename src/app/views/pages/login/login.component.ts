@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
   ) {}
 
   private unsubscribe$ = new Subject<void>();
@@ -121,7 +121,7 @@ export class LoginComponent implements OnInit {
             icon: 'error',
             confirmButtonText: 'OK',
           });
-        }
+        },
       );
     } else {
       this.loginForm.markAllAsTouched();
@@ -171,7 +171,7 @@ export class LoginComponent implements OnInit {
           icon: 'error',
           confirmButtonText: 'OK',
         });
-      }
+      },
     );
   }
 

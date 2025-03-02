@@ -47,7 +47,7 @@ export class SchoolEducationComponent implements OnInit {
     private languagesService: LanguageService,
     private countryService: CountryService,
     private subjectService: SubjectService,
-    private draftService: CommonProfileDraftService
+    private draftService: CommonProfileDraftService,
   ) {}
 
   ngOnInit(): void {
@@ -81,7 +81,7 @@ export class SchoolEducationComponent implements OnInit {
           : null;
 
       const schoolQualificationValue = this.schoolEducationForm.get(
-        'schoolEduQualification'
+        'schoolEduQualification',
       ).value;
       // Casting the expression to the enum type to avoid TypeScript error
       const selectedSchoolQualification =
@@ -116,7 +116,7 @@ export class SchoolEducationComponent implements OnInit {
         this.emptyListErrorVisible = false;
 
         const mergedArray: SchoolEducation[] = this.tempList.concat(
-          this.tableList
+          this.tableList,
         );
         console.log(mergedArray);
         // Create an instance of CommonProfileDraft and assign SchoolEducation
@@ -147,7 +147,7 @@ export class SchoolEducationComponent implements OnInit {
 
                 this.resetCommonProfileForm();
                 this.findDraftByIdCandidate(
-                  sessionStorage.getItem('idCandidate') ?? '{}'
+                  sessionStorage.getItem('idCandidate') ?? '{}',
                 );
 
                 this.showUpdateButton = false;
@@ -158,7 +158,7 @@ export class SchoolEducationComponent implements OnInit {
             },
             (error) => {
               console.log('createOrModifyCommonProfileDraft() >> ' + error.get);
-            }
+            },
           );
       }
     } else {
@@ -198,7 +198,7 @@ export class SchoolEducationComponent implements OnInit {
 
             this.resetCommonProfileForm();
             this.findDraftByIdCandidate(
-              sessionStorage.getItem('idCandidate') ?? '{}'
+              sessionStorage.getItem('idCandidate') ?? '{}',
             );
 
             this.showUpdateButton = false;
@@ -209,7 +209,7 @@ export class SchoolEducationComponent implements OnInit {
         },
         (error) => {
           console.log('deleteSchoolEducation() >> ' + error.get);
-        }
+        },
       );
   }
 
@@ -263,13 +263,13 @@ export class SchoolEducationComponent implements OnInit {
           this.commonProfileDraft.schoolEducations.forEach(
             (schoolEducation: SchoolEducation) => {
               this.tableList.push(schoolEducation);
-            }
+            },
           );
         }
       },
       (error) => {
         console.log('findDraftByIdCandidate() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -280,7 +280,7 @@ export class SchoolEducationComponent implements OnInit {
       const selectedSubjectId =
         this.schoolEducationForm.get('idSubject')?.value;
       const selectedSubject = this.subjects.find(
-        (subject: Subject) => subject.id == selectedSubjectId
+        (subject: Subject) => subject.id == selectedSubjectId,
       );
 
       const gradeValue = this.schoolEducationForm.get('grade').value;
@@ -336,7 +336,7 @@ export class SchoolEducationComponent implements OnInit {
         },
         (error) => {
           console.log('getSubjectsBySchoolEduQualification() >> ' + error.get);
-        }
+        },
       );
   }
 
@@ -345,7 +345,7 @@ export class SchoolEducationComponent implements OnInit {
 
     const schemeId = (event.target as HTMLSelectElement).value;
     const schoolEduQualification = this.schoolEducationForm.get(
-      'schoolEduQualification'
+      'schoolEduQualification',
     ).value;
     // Casting the expression to the enum type to avoid TypeScript error
     const selectedSchoolEduQualification =
@@ -356,7 +356,7 @@ export class SchoolEducationComponent implements OnInit {
     this.subjectService
       .getBySchoolEduQualificationAndScheme(
         selectedSchoolEduQualification,
-        schemeId
+        schemeId,
       )
       .subscribe(
         (data) => {
@@ -366,7 +366,7 @@ export class SchoolEducationComponent implements OnInit {
         },
         (error) => {
           console.log('getBySchoolEduQualificationAndScheme() >> ' + error.get);
-        }
+        },
       );
   }
 
@@ -379,7 +379,7 @@ export class SchoolEducationComponent implements OnInit {
       },
       (error) => {
         console.log('getAllActiveCountries() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -392,7 +392,7 @@ export class SchoolEducationComponent implements OnInit {
       },
       (error) => {
         console.log('getAllActiveLanguages() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -429,7 +429,7 @@ export class SchoolEducationComponent implements OnInit {
         },
         (error) => {
           console.log('getBySchoolEduQualification() >> ' + error.get);
-        }
+        },
       );
   }
 

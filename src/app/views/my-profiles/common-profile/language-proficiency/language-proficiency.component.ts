@@ -31,7 +31,7 @@ export class LanguageProficiencyComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private languageService: LanguageService,
-    private draftService: CommonProfileDraftService
+    private draftService: CommonProfileDraftService,
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +57,7 @@ export class LanguageProficiencyComponent implements OnInit {
       const formValue = this.languageProficiencyForm.value;
 
       const selectedLanguage = this.languages.find(
-        (language: Language) => language.idLanguage == formValue.idLanguage
+        (language: Language) => language.idLanguage == formValue.idLanguage,
       );
 
       const languageProf: LanguageProficiency = {
@@ -83,7 +83,7 @@ export class LanguageProficiencyComponent implements OnInit {
         this.emptyListErrorVisible = false;
 
         const mergedArray: LanguageProficiency[] = this.tempList.concat(
-          this.tableList
+          this.tableList,
         );
 
         // Create an instance of CommonProfileDraft and assign Membership
@@ -114,7 +114,7 @@ export class LanguageProficiencyComponent implements OnInit {
 
                 this.resetCommonProfileForm();
                 this.findDraftByIdCandidate(
-                  sessionStorage.getItem('idCandidate') ?? '{}'
+                  sessionStorage.getItem('idCandidate') ?? '{}',
                 );
 
                 this.showUpdateButton = false;
@@ -125,7 +125,7 @@ export class LanguageProficiencyComponent implements OnInit {
             },
             (error) => {
               console.log('createOrModifyCommonProfileDraft() >> ' + error.get);
-            }
+            },
           );
       }
     } else {
@@ -136,7 +136,7 @@ export class LanguageProficiencyComponent implements OnInit {
   deleteLanguageProficiency(languageProficiency: LanguageProficiency) {
     // Assuming languageProficiency is the specific object you want to remove
     this.tableList = this.tableList.filter(
-      (item) => item !== languageProficiency
+      (item) => item !== languageProficiency,
     );
 
     // Create an instance of CommonProfileDraft and assign LanguageProficiency
@@ -167,7 +167,7 @@ export class LanguageProficiencyComponent implements OnInit {
 
             this.resetCommonProfileForm();
             this.findDraftByIdCandidate(
-              sessionStorage.getItem('idCandidate') ?? '{}'
+              sessionStorage.getItem('idCandidate') ?? '{}',
             );
 
             this.showUpdateButton = false;
@@ -178,7 +178,7 @@ export class LanguageProficiencyComponent implements OnInit {
         },
         (error) => {
           console.log('deleteMembership() >> ' + error.get);
-        }
+        },
       );
   }
 
@@ -200,7 +200,7 @@ export class LanguageProficiencyComponent implements OnInit {
             (languageProficiency: LanguageProficiency) => {
               const selectedLanguage = this.languages.find(
                 (language: Language) =>
-                  language.idLanguage == languageProficiency.idLanguage
+                  language.idLanguage == languageProficiency.idLanguage,
               );
 
               const spoken =
@@ -224,13 +224,13 @@ export class LanguageProficiencyComponent implements OnInit {
               languageProficiency.reading = reading;
 
               this.tableList.push(languageProficiency);
-            }
+            },
           );
         }
       },
       (error) => {
         console.log('findDraftByIdCandidate() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -243,7 +243,7 @@ export class LanguageProficiencyComponent implements OnInit {
       },
       (error) => {
         console.log('getAllActiveLanguages() >> ' + error.get);
-      }
+      },
     );
   }
 

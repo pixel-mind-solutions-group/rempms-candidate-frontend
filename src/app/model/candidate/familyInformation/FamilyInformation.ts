@@ -1,5 +1,4 @@
 export class FamilyInformation {
-
   idFamilyInformation: string | any;
   name: string | any;
   relationship: string | any;
@@ -9,5 +8,4 @@ export class FamilyInformation {
   schoolOrOrganization: string | any;
   remark: string | any;
   isDependant: boolean | any;
-
 }

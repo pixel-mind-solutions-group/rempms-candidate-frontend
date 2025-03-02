@@ -1,5 +1,4 @@
 export class PersonalDetail {
-
   idPersonalDetail: string | any;
   salutation: string | any; //enum
   firstName: string | any;
@@ -30,5 +29,4 @@ export class PersonalDetail {
   idLanguage: string | any;
   idPreferredLanguage: string | any;
   idCommunicationInformation: string | any; //communication-service
-
 }

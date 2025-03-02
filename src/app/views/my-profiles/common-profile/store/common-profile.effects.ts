@@ -8,7 +8,7 @@ import { catchError, map, mergeMap, of } from 'rxjs';
 export class CommonProfileEffects {
   constructor(
     private actions$: Actions,
-    private commonProfileService: CommonProfileDraftService
+    private commonProfileService: CommonProfileDraftService,
   ) {}
 
   saveOrModify$ = createEffect(() =>
@@ -18,20 +18,20 @@ export class CommonProfileEffects {
         this.commonProfileService
           .createOrModifyCommonProfileDraft(
             action.commonProfileDraft,
-            action.documents
+            action.documents,
           )
           .pipe(
             map((commonResponse) =>
               CommonProfileActions.saveCommonProfileDataSuccess({
                 commonResponse,
-              })
+              }),
             ),
             catchError((error) =>
-              of(CommonProfileActions.saveCommonProfileDataFailure({ error }))
-            )
-          )
-      )
-    )
+              of(CommonProfileActions.saveCommonProfileDataFailure({ error })),
+            ),
+          ),
+      ),
+    ),
   );
 
   findCommonProfileByCandidateId$ = createEffect(() =>
@@ -44,17 +44,17 @@ export class CommonProfileEffects {
             map((commonResponse) =>
               CommonProfileActions.findCommonProfileByCandidateIdSuccess({
                 commonResponse,
-              })
+              }),
             ),
             catchError((error) =>
               of(
                 CommonProfileActions.findCommonProfileByCandidateIdFailure({
                   error,
-                })
-              )
-            )
-          )
-      )
-    )
+                }),
+              ),
+            ),
+          ),
+      ),
+    ),
   );
 }

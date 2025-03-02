@@ -1,6 +1,5 @@
-
-export interface CommonResponse{
-  status:string;
-  message:string;
-  data:object;
+export interface CommonResponse {
+  status: string;
+  message: string;
+  data: object;
 }

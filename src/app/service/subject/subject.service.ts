@@ -1,38 +1,39 @@
-import {Injectable} from '@angular/core';
-import {environment} from "../../environments/environment";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {CommonResponse} from "../../model/commonResponse/CommonResponse";
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { CommonResponse } from '../../model/commonResponse/CommonResponse';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SubjectService {
+  private urlSubjectApi = `${environment.baseUrl}` + '/candidate/v1/subject';
 
-  private urlSubjectApi = `${environment.baseUrl}` + "/candidate/v1/subject";
-
-  constructor(private httpClient: HttpClient) {
-  }
+  constructor(private httpClient: HttpClient) {}
 
   getBySchoolEduQualification(schoolEduQualification: string) {
-
     const url = this.urlSubjectApi + '/getBySchoolEduQualification';
 
     // Constructing request parameters
-    const params = new HttpParams().set('schoolEduQualification', schoolEduQualification);
+    const params = new HttpParams().set(
+      'schoolEduQualification',
+      schoolEduQualification,
+    );
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      params: params
-    }
+      params: params,
+    };
 
     return this.httpClient.get<CommonResponse>(url, httpOptions);
-
   }
 
-  getBySchoolEduQualificationAndScheme(schoolEduQualification: string, schemeId: string) {
-
+  getBySchoolEduQualificationAndScheme(
+    schoolEduQualification: string,
+    schemeId: string,
+  ) {
     const url = this.urlSubjectApi + '/getBySchoolEduQualificationAndScheme';
 
     // Constructing request parameters
@@ -44,11 +45,9 @@ export class SubjectService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      params: params
-    }
+      params: params,
+    };
 
     return this.httpClient.get<CommonResponse>(url, httpOptions);
-
   }
-
 }

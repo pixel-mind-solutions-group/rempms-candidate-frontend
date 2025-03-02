@@ -6,15 +6,15 @@ export const selectCommonProfileDraftState =
 
 export const selectCommonProfileDraftSaveResponse = createSelector(
   selectCommonProfileDraftState,
-  (state: CommonProfileState) => state.commonProfileDraftSaveResponse
+  (state: CommonProfileState) => state.commonProfileDraftSaveResponse,
 );
 
 export const selectCommonProfileDetailsByCandidateIdResponse = createSelector(
   selectCommonProfileDraftState,
-  (state: CommonProfileState) => state.commonProfileDraftSaveResponse
+  (state: CommonProfileState) => state.commonProfileDraftSaveResponse,
 );
 
 export const selectCommonProfileDetailsErrorResponse = createSelector(
   selectCommonProfileDraftState,
-  (state: CommonProfileState) => state.error
+  (state: CommonProfileState) => state.error,
 );

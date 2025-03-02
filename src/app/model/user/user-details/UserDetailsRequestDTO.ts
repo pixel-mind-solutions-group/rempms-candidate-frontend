@@ -1,3 +1,3 @@
 export interface UserDetailsRequestDTO {
-    uuid: string;
+  uuid: string;
 }

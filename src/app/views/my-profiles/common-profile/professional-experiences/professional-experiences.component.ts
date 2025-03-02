@@ -34,7 +34,7 @@ export class ProfessionalExperiencesComponent implements OnInit {
     private formBuilder: FormBuilder,
     private jobCategoryService: JobCategoryService,
     private industryService: IndustryService,
-    private draftService: CommonProfileDraftService
+    private draftService: CommonProfileDraftService,
   ) {}
 
   ngOnInit(): void {
@@ -91,7 +91,7 @@ export class ProfessionalExperiencesComponent implements OnInit {
         this.emptyListErrorVisible = false;
 
         const mergedArray: ProfessionalExperience[] = this.tempList.concat(
-          this.tableList
+          this.tableList,
         );
 
         // Create an instance of CommonProfileDraft and assign professionalExperience
@@ -123,7 +123,7 @@ export class ProfessionalExperiencesComponent implements OnInit {
                 this.resetCommonProfileForm();
                 this.tableList = [];
                 this.findDraftByIdCandidate(
-                  sessionStorage.getItem('idCandidate') ?? '{}'
+                  sessionStorage.getItem('idCandidate') ?? '{}',
                 );
 
                 this.showUpdateButton = false;
@@ -134,7 +134,7 @@ export class ProfessionalExperiencesComponent implements OnInit {
             },
             (error) => {
               console.log('createOrModifyCommonProfileDraft() >> ' + error.get);
-            }
+            },
           );
       }
     } else {
@@ -162,7 +162,7 @@ export class ProfessionalExperiencesComponent implements OnInit {
       },
       (error) => {
         console.log('getAllActiveJobCategories() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -175,7 +175,7 @@ export class ProfessionalExperiencesComponent implements OnInit {
       },
       (error) => {
         console.log('getAllActiveIndustries() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -199,13 +199,13 @@ export class ProfessionalExperiencesComponent implements OnInit {
           this.commonProfileDraft.professionalExperiences.forEach(
             (professionalExperience: ProfessionalExperience) => {
               this.tableList.push(professionalExperience);
-            }
+            },
           );
         }
       },
       (error) => {
         console.log('findDraftByIdCandidate() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -260,7 +260,7 @@ export class ProfessionalExperiencesComponent implements OnInit {
             this.resetCommonProfileForm();
             this.tableList = [];
             this.findDraftByIdCandidate(
-              sessionStorage.getItem('idCandidate') ?? '{}'
+              sessionStorage.getItem('idCandidate') ?? '{}',
             );
           } else {
             Swal.fire('Cancelled', data.message, 'error');
@@ -268,7 +268,7 @@ export class ProfessionalExperiencesComponent implements OnInit {
         },
         (error) => {
           console.log('deleteProfessionalExperience() >> ' + error.get);
-        }
+        },
       );
   }
 }

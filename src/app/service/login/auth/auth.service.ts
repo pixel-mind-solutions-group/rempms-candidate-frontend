@@ -21,13 +21,13 @@ export class AuthService {
     };
     let loginAuthApi = this.authApi + '/token';
     console.info(
-      'Calling iam service to get access and refresh tokens for the user...'
+      'Calling iam service to get access and refresh tokens for the user...',
     );
     return this.http.post<CommonResponse>(loginAuthApi, userRequest).pipe(
       map((response) => response),
       catchError((error) => {
         return this.handleError(error);
-      })
+      }),
     );
   }
 

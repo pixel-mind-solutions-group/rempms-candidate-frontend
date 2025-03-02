@@ -20,13 +20,13 @@ export class UserService {
     };
 
     console.info(
-      'Calling iam service to get user permissions list by token and uuid...'
+      'Calling iam service to get user permissions list by token and uuid...',
     );
     return this.http.post<CommonResponse>(userDetailsApi, data).pipe(
       map((response) => response),
       catchError((error) => {
         return this.handleError(error);
-      })
+      }),
     );
   }
 
@@ -37,7 +37,7 @@ export class UserService {
       map((response) => response),
       catchError((error) => {
         return this.handleError(error);
-      })
+      }),
     );
   }
 

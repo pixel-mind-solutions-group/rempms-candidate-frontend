@@ -37,7 +37,7 @@ export class CvOrCertificatesComponent implements OnInit {
     private formBuilder: FormBuilder,
     private documentTypeService: DocumentTypeService,
     private draftService: CommonProfileDraftService,
-    private candidateService: CandidateService
+    private candidateService: CandidateService,
   ) {}
 
   ngOnInit(): void {
@@ -87,14 +87,14 @@ export class CvOrCertificatesComponent implements OnInit {
         const data = await firstValueFrom(
           this.draftService.createOrModifyCommonProfileDraft(
             commonProfileDraft,
-            this.files
-          )
+            this.files,
+          ),
         );
 
         if (data.status == 'OK') {
           // Step 1: Execute findDraftByIdCandidate function and wait for it to finish
           await this.findDraftByIdCandidate(
-            sessionStorage.getItem('idCandidate') ?? '{}'
+            sessionStorage.getItem('idCandidate') ?? '{}',
           );
 
           // Step 2: Execute saveCandidate function and wait for it to finish
@@ -108,7 +108,7 @@ export class CvOrCertificatesComponent implements OnInit {
         Swal.fire(
           'Error',
           'An error occurred while saving the draft.',
-          'error'
+          'error',
         );
       }
     }
@@ -122,7 +122,7 @@ export class CvOrCertificatesComponent implements OnInit {
           Swal.fire(
             'Saved success.! \n Candidate No: ' + data.data.candidateNo,
             data.message,
-            'success'
+            'success',
           );
         } else {
           Swal.fire('Save failed.!', data.message, 'error');
@@ -132,7 +132,7 @@ export class CvOrCertificatesComponent implements OnInit {
         Swal.fire(
           'Error',
           'An error occurred while saving the candidate.',
-          'error'
+          'error',
         );
       }
     });
@@ -154,19 +154,19 @@ export class CvOrCertificatesComponent implements OnInit {
           this.commonProfileDraft.documentDetails.forEach(
             (documentDetails: DocumentDetails) => {
               const docType = this.documentTypes.find(
-                (dt) => dt.id === documentDetails.documentTypeId
+                (dt) => dt.id === documentDetails.documentTypeId,
               );
               documentDetails.documentType =
                 docType != undefined ? docType.name : '-';
 
               this.tableList.push(documentDetails);
-            }
+            },
           );
         }
       },
       (error) => {
         console.log('findDraftByIdCandidate() >> ' + error.get);
-      }
+      },
     );
   }
 
@@ -183,7 +183,7 @@ export class CvOrCertificatesComponent implements OnInit {
     }
 
     const docType = this.documentTypes.find(
-      (dt) => dt.id === formValue.documentTypeId
+      (dt) => dt.id === formValue.documentTypeId,
     );
 
     // temp list array
@@ -213,7 +213,7 @@ export class CvOrCertificatesComponent implements OnInit {
       },
       (error) => {
         console.log('getAllActiveDocumentTypes() >> ' + error.get);
-      }
+      },
     );
   }
 

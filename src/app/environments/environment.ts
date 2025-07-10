@@ -1,4 +1,6 @@
 export const environment = {
+  production: false,
+
   baseUrl: 'http://localhost:8081/api',
   loginUrl: 'http://localhost:9001/api/iam',
 

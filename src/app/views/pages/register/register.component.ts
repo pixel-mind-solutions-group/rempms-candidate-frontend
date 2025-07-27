@@ -100,7 +100,7 @@ export class RegisterComponent implements OnInit {
           {
             userHasApplicationScopeHasUserRoleId: '',
             applicationScopeId: '',
-            applicationScope: 'pdev-user',
+            applicationScope: 'pdev_user',
             userRole: 'NON_AD',
             userRoleId: '',
             hasElements: [],

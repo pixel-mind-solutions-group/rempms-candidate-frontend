@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
 
   baseUrl: 'http://localhost:8081/api',
   loginUrl: 'http://localhost:9001/api/iam',

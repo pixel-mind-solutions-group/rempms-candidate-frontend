@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
-  ) {}
+  ) { }
 
   private unsubscribe$ = new Subject<void>();
 
@@ -139,9 +139,9 @@ export class LoginComponent implements OnInit {
 
           if (
             userDetails.userHasApplicationScopeHasUserRole.userRole.role ===
-              UserRoles.CANDIDATE ||
+            UserRoles.CANDIDATE ||
             userDetails.userHasApplicationScopeHasUserRole.userRole.role ===
-              UserRoles.ADMIN
+            UserRoles.ADMIN
           ) {
             this.authService.setAuthenticationStatus(AuthStatus.YES);
             this.router.navigate(['/job-vacancies']);
@@ -165,12 +165,21 @@ export class LoginComponent implements OnInit {
       },
       (error) => {
         this.loading = false;
-        Swal.fire({
-          title: 'Error!',
-          text: 'Network Error.',
-          icon: 'error',
-          confirmButtonText: 'OK',
-        });
+        if (error.status === 500) {
+          Swal.fire({
+            title: 'Error!',
+            text: error.error.details[1],
+            icon: 'error',
+            confirmButtonText: 'OK',
+          });
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            text: 'Network Error.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+          });
+        }
       },
     );
   }

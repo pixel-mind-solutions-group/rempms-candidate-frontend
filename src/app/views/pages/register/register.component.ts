@@ -6,7 +6,6 @@ import {
   ContainerComponent,
   RowComponent,
   ColComponent,
-  TextColorDirective,
   CardComponent,
   CardBodyComponent,
   FormDirective,
@@ -15,7 +14,6 @@ import {
   FormControlDirective,
   ButtonDirective,
 } from '@coreui/angular';
-import { AuthService } from '../../../service/login/auth/auth.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { UserRegisterDTO } from '../../../model/user/register/UserRegisterDTO';

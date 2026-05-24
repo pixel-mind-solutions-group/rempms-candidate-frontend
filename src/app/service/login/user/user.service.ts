@@ -10,6 +10,7 @@ import { UserRegisterDTO } from '../../../model/user/register/UserRegisterDTO';
 })
 export class UserService {
   private userApi = `${environment.loginUrl}` + '/user/v1';
+  private userRegisterApi = `${environment.loginUrl}` + '/user/pixel-hire/v1';
 
   constructor(private http: HttpClient) {}
 
@@ -31,7 +32,7 @@ export class UserService {
   }
 
   register(userRegister: UserRegisterDTO): Observable<any> {
-    let registerAuthApi = this.userApi + '/non-ad/create';
+    let registerAuthApi = this.userRegisterApi + '/non-ad/create';
     console.info('Calling iam service to register the non-ad user...');
     return this.http.post<CommonResponse>(registerAuthApi, userRegister).pipe(
       map((response) => response),

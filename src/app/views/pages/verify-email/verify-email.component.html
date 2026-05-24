@@ -1,0 +1,48 @@
+<div class="verify-container">
+    <div class="verify-card">
+        <!-- <div class="logo">
+            <img src="assets/images/logo.png" alt="PIXEL HIRE Logo" />
+        </div> -->
+
+        <!-- <h2 class="title">Email Verification</h2> -->
+
+        <!-- Loading / verifying -->
+        <div class="status" *ngIf="status === 'verifying'">
+            <p class="info">
+                We are verifying your email address...
+                <br />
+                Please wait a moment.
+            </p>
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Success -->
+        <div *ngIf="status === 'success'" class="verified">
+            <div class="success-icon">
+                <i class="fa fa-check-circle"></i>
+            </div>
+            <h3>Email Verified Successfully!</h3>
+            <p class="success-msg">
+                Thank you for verifying your email.
+                You can now log in and explore your PIXEL HIRE account.
+            </p>
+            <button class="btn-login" (click)="redirectToLogin()">Go to Login</button>
+        </div>
+
+        <!-- Failure -->
+        <div *ngIf="status === 'failed'" class="failed">
+            <div class="error-icon">
+                <i class="fa fa-times-circle"></i>
+            </div>
+            <h3>Email Verification Failed</h3>
+            <p class="error-msg">
+                The verification link may have expired or is invalid.<br />
+                Please request a new verification email.
+            </p>
+            <a class="btn-retry" routerLink="/register">Resend Verification</a>
+        </div>
+        <p class="footer-text">
+            © {{ currentYear }} PIXEL HIRE. All rights reserved.
+        </p>
+    </div>
+</div>

@@ -26,6 +26,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { AuthStatus } from '../../../enums/AuthStatus';
 import { UserRoles } from '../../../enums/UserRole';
 import { UserDetailsResponseDTO } from '../../../model/user/user-details/UserDetailsResponseDTO';
+import { VerifyEmailService } from 'src/app/service/verifyEmail/verify-email.service';
 
 @Component({
   selector: 'app-login',
@@ -59,6 +60,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
+    private verifyEmailService: VerifyEmailService
   ) { }
 
   private unsubscribe$ = new Subject<void>();
@@ -128,6 +130,10 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  redirectToRegister() {
+    this.router.navigate(['/register']);
+  }
+
   getUserPermissionList() {
     this.userService.getUserPermissionList().subscribe(
       (response) => {
@@ -157,7 +163,7 @@ export class LoginComponent implements OnInit {
         } else {
           Swal.fire({
             title: 'Error!',
-            text: response.message,
+            text: 'Something went wrong. Contact support if the problem continues.',
             icon: 'error',
             confirmButtonText: 'OK',
           });
@@ -167,10 +173,17 @@ export class LoginComponent implements OnInit {
         this.loading = false;
         if (error.status === 500) {
           Swal.fire({
-            title: 'Error!',
-            text: error.error.details[1],
+            title: 'Email Verification Failed',
+            text: error.error?.details?.[1] + ' Do you want to resend the verification url?',
             icon: 'error',
-            confirmButtonText: 'OK',
+            showCancelButton: true,
+            confirmButtonText: 'Resend Url',
+            cancelButtonText: 'Cancel',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // 👇 Call resend verification method here
+              this.resendVerificationEmail();
+            }
           });
         } else {
           Swal.fire({
@@ -184,12 +197,47 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  pageLoader() {
-    this.loading = true;
+  resendVerificationEmail() {
+    const username: string = this.loginForm.value.username;
+    this.verifyEmailService.resendVerificationEmail(username).pipe(takeUntil(this.unsubscribe$)).subscribe(
+      (response) => {
+        if (response.status === 'OK') {
+          Swal.fire({
+            title: 'Success!',
+            text: 'Verification email resent successfully. Please check your inbox.',
+            icon: 'success',
+            confirmButtonText: 'OK',
+          });
+
+        } else if (response.status === 'NO_CONTENT') {
+          Swal.fire({
+            title: 'Error!',
+            text: response.message,
+            icon: 'error',
+            confirmButtonText: 'OK',
+          });
+
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            text: 'Something went wrong. Contact support if the problem continues.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+          });
+        }
+      },
+      (error) => {
+        Swal.fire({
+          title: 'Error!',
+          text: 'Failed to resend verification email. Contact support if the problem continues.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
+      },
+    );
   }
 
-  redirectToRegister() {
-    // Use the Router service to navigate to the 'referees' route
-    this.router.navigate(['/register']);
+  pageLoader() {
+    this.loading = true;
   }
 }

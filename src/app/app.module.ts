@@ -2,18 +2,16 @@ import { NgModule } from '@angular/core';
 import {
   HashLocationStrategy,
   LocationStrategy,
-  PathLocationStrategy,
 } from '@angular/common';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './interceptor/jwt.interceptor';
-
-// Import http client module
-import { HttpClientModule } from '@angular/common/http';
-
+import { ToastrModule } from 'ngx-toastr'; // ✅ Toast notifications
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 // Import routing module
 import { AppRoutingModule } from './app-routing.module';
@@ -50,8 +48,6 @@ import {
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -63,8 +59,10 @@ const APP_CONTAINERS = [
   declarations: [AppComponent, ...APP_CONTAINERS],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule, // ✅ Required for Toastr animations
     AppRoutingModule,
+
+    // ✅ CoreUI modules
     AvatarModule,
     BreadcrumbModule,
     FooterModule,
@@ -79,19 +77,27 @@ const APP_CONTAINERS = [
     UtilitiesModule,
     ButtonGroupModule,
     ReactiveFormsModule,
-    SidebarModule,
     SharedModule,
     TabsModule,
     ListGroupModule,
     ProgressModule,
     BadgeModule,
-    ListGroupModule,
     CardModule,
     NgScrollbarModule,
-    HttpClientModule,
 
-    StoreModule.forRoot({}), // Root state if any
-    EffectsModule.forRoot([]), // Root effects if any
+    // ✅ HTTP + NGRX
+    HttpClientModule,
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
+
+    // ✅ Toastr configuration
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+      progressBar: true,
+      closeButton: true,
+    }),
   ],
   providers: [
     {
@@ -101,11 +107,11 @@ const APP_CONTAINERS = [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
-      multi: true, // Important for multiple interceptors
+      multi: true,
     },
     IconSetService,
     Title,
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

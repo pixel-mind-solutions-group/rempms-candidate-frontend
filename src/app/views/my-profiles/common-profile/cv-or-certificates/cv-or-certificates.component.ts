@@ -8,8 +8,6 @@ import { CommonProfileDraft } from '../../../../model/candidate/commonProfileDra
 import Swal from 'sweetalert2';
 import { CommonProfileDraftService } from '../../../../service/commonProfileDraft/common-profile-draft.service';
 import { CandidateService } from '../../../../service/candidate/candidate.service';
-import { LocalStorageService } from '../../../../service/localStorage/local-storage.service';
-import { CommonResponse } from 'src/app/model/commonResponse/CommonResponse';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -38,7 +36,7 @@ export class CvOrCertificatesComponent implements OnInit {
     private documentTypeService: DocumentTypeService,
     private draftService: CommonProfileDraftService,
     private candidateService: CandidateService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.findDraftByIdCandidate(sessionStorage.getItem('idCandidate') ?? '{}');
@@ -98,7 +96,14 @@ export class CvOrCertificatesComponent implements OnInit {
           );
 
           // Step 2: Execute saveCandidate function and wait for it to finish
-          await this.saveCandidate(this.commonProfileDraft.idCandidate);
+          const fullName = this.commonProfileDraft?.personalDetail?.salutation + '. ' +
+            this.commonProfileDraft?.personalDetail?.firstName + ' ' +
+            this.commonProfileDraft?.personalDetail?.lastName;
+
+          await this.saveCandidate(
+            this.commonProfileDraft.idCandidate,
+            this.commonProfileDraft?.personalDetail?.email,
+            fullName);
           await this.resetDocumentForm();
         } else {
           Swal.fire('Cancelled', data.message, 'error');
@@ -115,8 +120,8 @@ export class CvOrCertificatesComponent implements OnInit {
   }
 
   // TODO: create candidate in candidate service
-  saveCandidate(id: number) {
-    this.candidateService.saveCandidate(id).subscribe((data) => {
+  saveCandidate(id: number, email: any, fullName: any) {
+    this.candidateService.saveCandidate(id, email, fullName).subscribe((data) => {
       try {
         if (data.status == 'CREATED') {
           Swal.fire(

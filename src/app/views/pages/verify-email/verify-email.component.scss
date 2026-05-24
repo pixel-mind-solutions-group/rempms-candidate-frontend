@@ -1,0 +1,118 @@
+.verify-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2e86c1, #6dd5fa, #ffffff);
+  padding: 20px;
+}
+
+.verify-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  max-width: 420px;
+  width: 100%;
+  animation: fadeIn 0.7s ease-in-out;
+}
+
+.logo img {
+  width: 100px;
+  margin-bottom: 15px;
+}
+
+.title {
+  color: #2e86c1;
+  font-size: 24px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.info {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.spinner {
+  border: 5px solid #eee;
+  border-top: 5px solid #2e86c1;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 20px;
+  animation: spin 1s linear infinite;
+}
+
+.success-icon {
+  font-size: 70px;
+  color: #2ecc71;
+  margin: 20px 0;
+}
+
+.success-msg {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.btn-login {
+  background: #2e86c1;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+  background: #1b4f72;
+}
+
+.footer-text {
+  margin-top: 25px;
+  font-size: 13px;
+  color: #888;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.failed .error-icon {
+  font-size: 70px;
+  color: #e74c3c;
+  margin: 20px 0;
+}
+
+.btn-retry {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.btn-retry:hover {
+  background: #b03a2e;
+}
+

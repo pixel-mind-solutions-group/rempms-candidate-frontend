@@ -11,13 +11,16 @@ export class CandidateService {
   private urlCandidateApi =
     `${environment.baseUrl}` + '/candidate/v1/common-profile';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
-  saveCandidate(idCandidate: number): Observable<any> {
+  saveCandidate(idCandidate: number, email: any, fullName: any): Observable<any> {
     const url = this.urlCandidateApi + '/saveUpdate';
 
     // Setting the idCandidate as a query parameter
-    const params = new HttpParams().set('idCandidate', idCandidate.toString());
+    const params = new HttpParams()
+      .set('idCandidate', idCandidate.toString())
+      .set('email', email.toString())
+      .set('fullName', fullName.toString());
 
     const httpOptions = {
       headers: new HttpHeaders({

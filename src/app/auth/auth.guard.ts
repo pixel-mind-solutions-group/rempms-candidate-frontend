@@ -9,7 +9,6 @@ import {
 import { AuthService } from '../service/login/auth/auth.service';
 import { Observable } from 'rxjs';
 import { AuthStatus } from '../enums/AuthStatus';
-import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root',

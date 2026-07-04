@@ -10,7 +10,7 @@ import { Title } from '@angular/platform-browser';
   template: '<router-outlet></router-outlet>',
 })
 export class AppComponent implements OnInit {
-  title = 'PIXEL HIRE WEB';
+  title = 'PixelMind Candidate Portal';
 
   constructor(
     private router: Router,

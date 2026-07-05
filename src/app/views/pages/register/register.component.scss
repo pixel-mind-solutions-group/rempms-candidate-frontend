@@ -1,9 +1,778 @@
-/* Custom CSS */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
 
-select {
-  cursor: pointer;
+// Design System Variables - Red/Rose Theme
+$font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$font-title: 'Outfit', sans-serif;
+$primary-grad: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+$accent-rose: #f43f5e;
+$accent-red: #e11d48;
+
+$bg-dark: #090304;
+$card-bg: rgba(24, 10, 12, 0.65);
+$input-bg: rgba(18, 6, 8, 0.6);
+$border-color: rgba(255, 255, 255, 0.08);
+$border-focus: rgba(225, 29, 72, 0.5);
+
+$text-primary: #fff1f2;
+$text-secondary: #fca5a5;
+$text-muted: #fda4af;
+
+.login-page-container {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  background-color: $bg-dark;
+  color: $text-primary;
+  font-family: $font-sans;
+  overflow-x: hidden;
 }
 
-.form-validation {
-  color: red;
+// ----------------------------------------------------
+// 1. Loading Overlay & Custom Spinner
+// ----------------------------------------------------
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba($bg-dark, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-out forwards;
+
+  .loader-circle-container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  .loader-ring-outer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 4px solid rgba($accent-rose, 0.1);
+    border-radius: 50%;
+  }
+
+  .loader-ring-inner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 4px solid transparent;
+    border-top-color: $accent-rose;
+    border-radius: 50%;
+    animation: spin 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) infinite;
+  }
+
+  .loader-pulse-dot {
+    width: 20px;
+    height: 20px;
+    background-color: $accent-rose;
+    border-radius: 50%;
+    box-shadow: 0 0 20px $accent-rose;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  .loader-title {
+    font-family: $font-title;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 0;
+    background: linear-gradient(135deg, #ffffff 0%, #fecdd3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .loader-subtitle {
+    color: $text-secondary;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+}
+
+// ----------------------------------------------------
+// 2. Split Screen Layout
+// ----------------------------------------------------
+.split-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+// ----------------------------------------------------
+// 2.1 Left Pane: Branding / Feature Slider
+// ----------------------------------------------------
+.branding-pane {
+  flex: 1.2;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 60px;
+  background: linear-gradient(135deg, #120203 0%, #450a0a 60%, #080101 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+
+  // Background glow details
+  &::before {
+    content: '';
+    position: absolute;
+    top: -150px;
+    left: -150px;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(225, 29, 72, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -150px;
+    right: -100px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(253, 164, 175, 0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .branding-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(rgba($bg-dark, 0.2) 2px, transparent 2px);
+    background-size: 30px 30px;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .branding-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .brand-logo-container {
+    margin-bottom: 50px;
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+    .brand-logo-img {
+      height: 48px;
+      width: auto;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+    }
+  }
+
+  .hero-text-section {
+    margin-bottom: 40px;
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+    opacity: 0;
+
+    .hero-title {
+      font-family: $font-title;
+      font-size: 42px;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+      color: #ffffff;
+
+      .highlight-text {
+        background: linear-gradient(90deg, #fca5a5 0%, $accent-rose 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+
+    .hero-subtitle {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #fecdd3;
+      max-width: 520px;
+    }
+  }
+
+  // Features
+  .features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 50px;
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+    opacity: 0;
+
+    .feature-item {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: translateX(6px);
+
+        .feature-icon {
+          background: rgba(225, 29, 72, 0.2);
+          border-color: rgba(225, 29, 72, 0.4);
+          color: $accent-rose;
+          box-shadow: 0 0 15px rgba(225, 29, 72, 0.25);
+        }
+      }
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      border-radius: 12px;
+      background-color: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $accent-red;
+      font-size: 18px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .feature-text-block {
+      .feature-item-title {
+        font-family: $font-title;
+        font-size: 17px;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #ffffff;
+      }
+
+      .feature-item-desc {
+        font-size: 14px;
+        color: #fecdd3;
+        line-height: 1.5;
+        margin: 0;
+      }
+    }
+  }
+
+  // Floating stats badges
+  .stats-badge-grid {
+    display: flex;
+    gap: 20px;
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    opacity: 0;
+
+    .stat-badge {
+      display: flex;
+      flex-direction: column;
+      padding: 16px 24px;
+      background-color: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-4px);
+      }
+
+      .stat-num {
+        font-family: $font-title;
+        font-size: 24px;
+        font-weight: 800;
+        color: $accent-rose;
+      }
+
+      .stat-label {
+        font-size: 12px;
+        color: #fda4af;
+        margin-top: 4px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+}
+
+// ----------------------------------------------------
+// 2.2 Right Pane: Form Card Container
+// ----------------------------------------------------
+.form-pane {
+  flex: 0.9;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: #070102;
+  overflow: hidden;
+
+  // Background glow
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(225, 29, 72, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .form-scroll-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+  }
+
+  .form-card-container {
+    width: 100%;
+    max-width: 440px;
+    position: relative;
+    z-index: 2;
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .mobile-logo-header {
+    display: none;
+    justify-content: center;
+    margin-bottom: 40px;
+
+    .mobile-brand-logo {
+      height: 40px;
+      width: auto;
+    }
+  }
+
+  .form-header {
+    margin-bottom: 36px;
+    text-align: left;
+
+    .form-title {
+      font-family: $font-title;
+      font-size: 32px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    .form-subtitle {
+      font-size: 15px;
+      color: $text-secondary;
+      line-height: 1.5;
+    }
+  }
+
+  // Auth form
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .form-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &.has-error {
+      .input-wrapper {
+        border-color: rgba(239, 68, 68, 0.4);
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.05);
+
+        &:focus-within {
+          border-color: rgb(239, 68, 68);
+          box-shadow: 0 0 12px rgba(239, 68, 68, 0.2);
+        }
+      }
+      .input-icon-box {
+        color: #ef4444;
+      }
+    }
+
+    .input-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: $text-primary;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background-color: $input-bg;
+      border: 1.5px solid $border-color;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+      &:focus-within {
+        border-color: $border-focus;
+        box-shadow: 0 0 12px rgba(225, 29, 72, 0.25);
+        background-color: rgba(20, 6, 8, 0.85);
+
+        .input-icon-box {
+          color: #f87171;
+        }
+      }
+    }
+
+    .input-icon-box {
+      padding-left: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $text-secondary;
+      font-size: 15px;
+      transition: color 0.3s ease;
+    }
+
+    .input-control {
+      width: 100%;
+      padding: 14px 18px;
+      background: transparent !important;
+      background-color: transparent !important;
+      border: none;
+      color: #ffffff !important;
+      font-size: 15px;
+      font-family: $font-sans;
+
+      &:focus {
+        outline: none;
+      }
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.35);
+      }
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover, 
+      &:-webkit-autofill:focus, 
+      &:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px #0e0304 inset !important;
+        -webkit-text-fill-color: #ffffff !important;
+        transition: background-color 5000s ease-in-out 0s;
+      }
+    }
+
+    .password-toggle-btn {
+      position: absolute;
+      right: 14px;
+      background: none;
+      border: none;
+      color: $text-secondary;
+      cursor: pointer;
+      padding: 6px;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #ffffff;
+      }
+    }
+
+    .error-msg {
+      font-size: 12.5px;
+      color: #f87171;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+      font-weight: 500;
+      animation: slideInDown 0.2s ease-out forwards;
+    }
+  }
+
+  // ----------------------------------------------------
+  // Password Strength Meter Styling
+  // ----------------------------------------------------
+  .strength-meter-container {
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .strength-labels {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 500;
+
+      .strength-title {
+        color: $text-secondary;
+      }
+    }
+
+    .strength-bars {
+      width: 100%;
+      height: 6px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .strength-bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 3px;
+      transition: width 0.3s ease, background-color 0.3s ease;
+
+      &.strength-weak {
+        background-color: #ef4444;
+        box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+      }
+      &.strength-fair {
+        background-color: #f97316;
+        box-shadow: 0 0 8px rgba(249, 115, 22, 0.4);
+      }
+      &.strength-good {
+        background-color: #eab308;
+        box-shadow: 0 0 8px rgba(234, 179, 8, 0.4);
+      }
+      &.strength-strong {
+        background-color: #22c55e;
+        box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+      }
+    }
+  }
+
+  .strength-indicator-label {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+
+    &.strength-weak { color: #ef4444; }
+    &.strength-fair { color: #f97316; }
+    &.strength-good { color: #eab308; }
+    &.strength-strong { color: #22c55e; }
+  }
+
+  .form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4px;
+
+    .remember-me-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+
+      .checkbox-input {
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        background-color: $input-bg;
+        border: 1.5px solid $border-color;
+        border-radius: 6px;
+        cursor: pointer;
+        display: grid;
+        place-content: center;
+        transition: all 0.3s ease;
+
+        &:checked {
+          background-color: $accent-red;
+          border-color: $accent-red;
+
+          &::before {
+            transform: scale(1);
+          }
+        }
+
+        &::before {
+          content: '✔';
+          color: #ffffff;
+          font-size: 11px;
+          transform: scale(0);
+          transition: transform 0.15s ease-in-out;
+        }
+      }
+
+      .checkbox-label {
+        font-size: 13.5px;
+        color: $text-secondary;
+      }
+    }
+
+    .forgot-pass-link {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: $accent-rose;
+      text-decoration: none;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #ffffff;
+        text-shadow: 0 0 10px rgba(244, 63, 94, 0.2);
+      }
+    }
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    margin-top: 10px;
+    border-radius: 12px;
+    background: $primary-grad;
+    border: none;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 20px rgba(225, 29, 72, 0.3);
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(225, 29, 72, 0.5);
+      background: linear-gradient(135deg, #cb1a3e 0%, #a21030 100%);
+
+      .button-arrow {
+        transform: translateX(4px);
+      }
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      background: $input-bg;
+      border: 1px solid $border-color;
+      color: #6e3338;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .button-arrow {
+      transition: transform 0.3s ease;
+      font-size: 14px;
+    }
+  }
+
+  .form-footer-prompt {
+    margin-top: 36px;
+    text-align: center;
+
+    p {
+      font-size: 14px;
+      color: $text-secondary;
+      margin: 0;
+    }
+
+    .redirect-link {
+      color: #fca5a5;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-left: 4px;
+
+      &:hover {
+        color: $accent-rose;
+        text-shadow: 0 0 10px rgba(244, 63, 94, 0.2);
+      }
+    }
+  }
+}
+
+// ----------------------------------------------------
+// 3. Responsive Adaptability (Mobile & Tablet)
+// ----------------------------------------------------
+@media (max-width: 992px) {
+  .split-layout {
+    flex-direction: column;
+  }
+
+  .branding-pane {
+    display: none; // Hide left banner on mobile
+  }
+
+  .form-pane {
+    flex: 1;
+    min-height: 100vh;
+
+    .mobile-logo-header {
+      display: flex;
+    }
+
+    .form-scroll-wrapper {
+      padding: 40px 20px;
+    }
+  }
+}
+
+// ----------------------------------------------------
+// 4. Custom Keyframe Animations
+// ----------------------------------------------------
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(0.85); opacity: 0.5; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

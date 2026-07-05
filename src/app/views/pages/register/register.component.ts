@@ -45,6 +45,12 @@ import { UserHasApplicationScopeHasUserRoleRequestDTO } from '../../../model/use
 export class RegisterComponent implements OnInit {
   loading = false;
   registerForm: FormGroup | any;
+  showPassword = false;
+  showRetypePassword = false;
+  
+  passwordStrength = 0;
+  passwordStrengthText = '';
+  passwordStrengthClass = '';
 
   constructor(
     private router: Router,
@@ -54,15 +60,64 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerFormInit();
+    this.registerForm.get('password')?.valueChanges.subscribe((val: string) => {
+      this.checkPasswordStrength(val);
+    });
   }
 
   registerFormInit() {
     this.registerForm = this.formBuilder.group({
-      username: ['', [Validators.required]],
-      email: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       retypePassword: ['', [Validators.required]],
     });
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleRetypePasswordVisibility() {
+    this.showRetypePassword = !this.showRetypePassword;
+  }
+
+  checkPasswordStrength(password: string) {
+    if (!password) {
+      this.passwordStrength = 0;
+      this.passwordStrengthText = '';
+      this.passwordStrengthClass = '';
+      return;
+    }
+    let score = 0;
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[a-z]/.test(password) && /[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+
+    this.passwordStrength = score;
+    switch (score) {
+      case 0:
+      case 1:
+        this.passwordStrengthText = 'Weak';
+        this.passwordStrengthClass = 'strength-weak';
+        break;
+      case 2:
+        this.passwordStrengthText = 'Fair';
+        this.passwordStrengthClass = 'strength-fair';
+        break;
+      case 3:
+        this.passwordStrengthText = 'Good';
+        this.passwordStrengthClass = 'strength-good';
+        break;
+      case 4:
+        this.passwordStrengthText = 'Strong';
+        this.passwordStrengthClass = 'strength-strong';
+        break;
+      default:
+        this.passwordStrengthText = 'Weak';
+        this.passwordStrengthClass = 'strength-weak';
+    }
   }
 
   register() {

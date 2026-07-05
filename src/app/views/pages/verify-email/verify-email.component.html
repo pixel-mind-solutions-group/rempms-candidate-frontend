@@ -1,48 +1,63 @@
-<div class="verify-container">
+<div class="verify-page-container">
+  <!-- Background animated details -->
+  <div class="bg-glow-circle-1"></div>
+  <div class="bg-glow-circle-2"></div>
+
+  <div class="verify-card-wrapper">
     <div class="verify-card">
-        <!-- <div class="logo">
-            <img src="assets/images/logo.png" alt="PixelMind IT Solutions Logo" />
-        </div> -->
+      <!-- Brand Logo -->
+      <div class="brand-logo-header">
+        <img src="assets/img/brand/pixelmind-logo.svg" alt="PixelMind Logo" class="brand-logo-img" />
+      </div>
 
-        <!-- <h2 class="title">Email Verification</h2> -->
-
-        <!-- Loading / verifying -->
-        <div class="status" *ngIf="status === 'verifying'">
-            <p class="info">
-                We are verifying your email address...
-                <br />
-                Please wait a moment.
-            </p>
-            <div class="spinner"></div>
+      <!-- Verifying state -->
+      <div class="verify-status-section" *ngIf="status === 'verifying'">
+        <div class="loader-circle-container">
+          <div class="loader-ring-outer"></div>
+          <div class="loader-ring-inner"></div>
+          <div class="loader-pulse-dot"></div>
         </div>
-
-        <!-- Success -->
-        <div *ngIf="status === 'success'" class="verified">
-            <div class="success-icon">
-                <i class="fa fa-check-circle"></i>
-            </div>
-            <h3>Email Verified Successfully!</h3>
-            <p class="success-msg">
-                Thank you for verifying your email.
-                You can now log in and explore your PixelMind IT Solutions account.
-            </p>
-            <button class="btn-login" (click)="redirectToLogin()">Go to Login</button>
-        </div>
-
-        <!-- Failure -->
-        <div *ngIf="status === 'failed'" class="failed">
-            <div class="error-icon">
-                <i class="fa fa-times-circle"></i>
-            </div>
-            <h3>Email Verification Failed</h3>
-            <p class="error-msg">
-                The verification link may have expired or is invalid.<br />
-                Please request a new verification email.
-            </p>
-            <a class="btn-retry" routerLink="/register">Resend Verification</a>
-        </div>
-        <p class="footer-text">
-            © 2026 PixelMind IT Solutions. All Rights Reserved.
+        <h2 class="status-title">Email Verification</h2>
+        <p class="status-message">
+          We are cryptographically validating your email address. Please hold on a moment...
         </p>
+      </div>
+
+      <!-- Success state -->
+      <div class="verify-status-section success-state" *ngIf="status === 'success'">
+        <div class="status-icon-glow success-glow">
+          <i class="fa-solid fa-circle-check success-icon"></i>
+        </div>
+        <h2 class="status-title text-success">Email Verified!</h2>
+        <p class="status-message">
+          Congratulations! Your email address has been successfully verified. You can now access your candidate
+          dashboard and begin applying for jobs.
+        </p>
+        <button class="action-btn success-btn" (click)="redirectToLogin()">
+          <span>Proceed to Sign In</span>
+          <i class="fa-solid fa-arrow-right button-arrow"></i>
+        </button>
+      </div>
+
+      <!-- Failure state -->
+      <div class="verify-status-section failure-state" *ngIf="status === 'failed'">
+        <div class="status-icon-glow failure-glow">
+          <i class="fa-solid fa-circle-xmark failure-icon"></i>
+        </div>
+        <h2 class="status-title text-danger">Verification Failed</h2>
+        <p class="status-message">
+          The link is invalid or has expired. Please request a new verification email to proceed with setting up your
+          profile.
+        </p>
+        <a class="action-btn failure-btn" routerLink="/register">
+          <span>Resend Link</span>
+          <i class="fa-solid fa-arrow-rotate-right button-arrow"></i>
+        </a>
+      </div>
+
+      <p class="verify-card-footer">
+        © 2026 PixelMind IT Solutions. All Rights Reserved.
+      </p>
     </div>
+  </div>
 </div>

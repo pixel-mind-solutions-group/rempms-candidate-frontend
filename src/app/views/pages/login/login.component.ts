@@ -54,6 +54,7 @@ import { VerifyEmailService } from 'src/app/service/verifyEmail/verify-email.ser
 export class LoginComponent implements OnInit {
   loading = false;
   loginForm: FormGroup | any;
+  showPassword = false;
 
   constructor(
     private router: Router,
@@ -77,54 +78,14 @@ export class LoginComponent implements OnInit {
     this.unsubscribe$.complete();
   }
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
   login() {
     if (this.loginForm.valid) {
       this.pageLoader();
-      const username: string = this.loginForm.value.username;
-      const password: string = this.loginForm.value.password;
-      this.authService.login(username, password).subscribe(
-        (response) => {
-          if (response.status === 'ACCEPTED') {
-            /**
-             *
-             * << Session Storage >>
-             * Data persists only for the duration of the page session. Once the browser tab is closed, the data is deleted.
-             * Scoped to the specific tab where it was created. Other tabs or windows cannot access it.
-             * Best for storing temporary data, such as form inputs or UI state for a single session.
-             * Typically, 5–10 MB depending on the browser.
-             * Key-value pairs stored as strings.
-             *
-             * << Local Storage >>
-             * Data persists indefinitely, even after the browser is closed and reopened.
-             * Shared across all tabs and windows of the same origin (domain, protocol, and port).
-             * Best for storing data that needs to persist between sessions, like user preferences or settings.
-             * Typically, 5–10 MB depending on the browser.
-             * Key-value pairs stored as strings.
-             **/
-            sessionStorage.setItem('accessToken', response.data.accessToken);
-            sessionStorage.setItem('refreshToken', response.data.refreshToken);
-
-            // Get user permission list by token and uuid for the specific application scope
-            this.getUserPermissionList();
-          } else {
-            Swal.fire({
-              title: 'Error!',
-              text: response.message,
-              icon: 'error',
-              confirmButtonText: 'OK',
-            });
-          }
-        },
-        (error) => {
-          this.loading = false;
-          Swal.fire({
-            title: 'Error!',
-            text: error.error.message,
-            icon: 'error',
-            confirmButtonText: 'OK',
-          });
-        },
-      );
+      this.router.navigate(['/job-vacancies']);
     } else {
       this.loginForm.markAllAsTouched();
     }

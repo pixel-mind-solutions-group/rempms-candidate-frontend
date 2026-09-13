@@ -12,7 +12,7 @@
 
   <!-- Main Split Layout -->
   <div class="split-layout">
-    <!-- Left Pane: Branding / Job Features (hidden on mobile) -->
+    <!-- Left Pane: Branding & Job Portal Illustration (hidden on mobile) -->
     <div class="branding-pane">
       <div class="branding-overlay"></div>
       <div class="branding-content">
@@ -21,59 +21,20 @@
           <img src="assets/img/brand/pixelmind-logo.svg" alt="PixelMind Logo" class="brand-logo-img" />
         </div>
 
+        <!-- Hero Text (Clean, simple, optimistic) -->
         <div class="hero-text-section">
-          <h1 class="hero-title">Join PixelMind <br/><span class="highlight-text">Today</span></h1>
-          <p class="hero-subtitle">Create a candidate profile to unlock personalized job matches, easy single-click applications, and direct communication with verified employers.</p>
+          <h1 class="hero-title">Start Your <br/><span class="highlight-text">Career Journey</span></h1>
+          <p class="hero-subtitle">Create your candidate profile to unlock personalized job matches, quick applications, and direct connections with top employers.</p>
         </div>
 
-        <!-- Features list -->
-        <div class="features-list">
-          <div class="feature-item">
-            <div class="feature-icon">
-              <i class="fa-solid fa-address-card"></i>
-            </div>
-            <div class="feature-text-block">
-              <h3 class="feature-item-title">One-Click Apply</h3>
-              <p class="feature-item-desc">Create your profile, upload your resume once, and apply to job positions instantly.</p>
-            </div>
-          </div>
-          
-          <div class="feature-item">
-            <div class="feature-icon">
-              <i class="fa-solid fa-bell"></i>
-            </div>
-            <div class="feature-text-block">
-              <h3 class="feature-item-title">Smart Vacancy Alerts</h3>
-              <p class="feature-item-desc">Receive real-time notifications for roles matching your custom filters and expertise.</p>
-            </div>
-          </div>
-
-          <div class="feature-item">
-            <div class="feature-icon">
-              <i class="fa-solid fa-shield-halved"></i>
-            </div>
-            <div class="feature-text-block">
-              <h3 class="feature-item-title">Data Privacy & Security</h3>
-              <p class="feature-item-desc">Your credentials and personal information are fully encrypted and protected under strict industry standards.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Stats Grid (floating visual badges) -->
-        <div class="stats-badge-grid">
-          <div class="stat-badge">
-            <span class="stat-num">10K+</span>
-            <span class="stat-label">Active Vacancies</span>
-          </div>
-          <div class="stat-badge">
-            <span class="stat-num">98%</span>
-            <span class="stat-label">Candidate Satisfaction</span>
-          </div>
+        <!-- Career Portal Vector Illustration -->
+        <div class="vector-illustration-container">
+          <img src="assets/img/career-vector.svg" alt="Job Search Portal" class="career-vector-img" />
         </div>
       </div>
     </div>
 
-    <!-- Right Pane: Authentication Form -->
+    <!-- Right Pane: Registration Form -->
     <div class="form-pane">
       <div class="form-scroll-wrapper">
         <div class="form-card-container">
@@ -83,11 +44,12 @@
           </div>
 
           <div class="form-header">
+            <div class="badge-pill">Candidate Registration</div>
             <h2 class="form-title">Create Account</h2>
             <p class="form-subtitle">Register to discover job opportunities and submit applications.</p>
           </div>
 
-          <form [formGroup]="registerForm" (ngSubmit)="register()" class="auth-form">
+          <form [formGroup]="registerForm" (ngSubmit)="register()" class="auth-form" novalidate>
             <!-- Username Input -->
             <div class="form-input-group" [class.has-error]="registerForm.get('username').invalid && registerForm.get('username').touched">
               <label for="username" class="input-label">Username</label>
@@ -126,7 +88,7 @@
                   autoComplete="email"
                   formControlName="email"
                   class="input-control"
-                  placeholder="Enter your email"
+                  placeholder="Enter your email address"
                   required
                 />
               </div>
@@ -158,6 +120,7 @@
                   type="button"
                   class="password-toggle-btn"
                   (click)="togglePasswordVisibility()"
+                  [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
                 >
                   <i class="fa-solid" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"></i>
                 </button>
@@ -195,13 +158,14 @@
                   autoComplete="new-password"
                   formControlName="retypePassword"
                   class="input-control"
-                  placeholder="Retype password"
+                  placeholder="Retype password to confirm"
                   required
                 />
                 <button
                   type="button"
                   class="password-toggle-btn"
                   (click)="toggleRetypePasswordVisibility()"
+                  [attr.aria-label]="showRetypePassword ? 'Hide password' : 'Show password'"
                 >
                   <i class="fa-solid" [class.fa-eye]="!showRetypePassword" [class.fa-eye-slash]="showRetypePassword"></i>
                 </button>

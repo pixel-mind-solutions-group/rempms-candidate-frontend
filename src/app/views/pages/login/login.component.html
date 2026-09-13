@@ -12,7 +12,7 @@
 
   <!-- Main Split Layout -->
   <div class="split-layout">
-    <!-- Left Pane: Branding / Job Features (hidden on mobile) -->
+    <!-- Left Pane: Branding & Job Portal Illustration (hidden on mobile) -->
     <div class="branding-pane">
       <div class="branding-overlay"></div>
       <div class="branding-content">
@@ -21,54 +21,15 @@
           <img src="assets/img/brand/pixelmind-logo.svg" alt="PixelMind Logo" class="brand-logo-img" />
         </div>
 
+        <!-- Hero Text (Clean, simple, optimistic) -->
         <div class="hero-text-section">
           <h1 class="hero-title">Empowering Your <br/><span class="highlight-text">Career Journey</span></h1>
-          <p class="hero-subtitle">Connect with top-tier global employers, track your job applications in real-time, and take the next step in your professional growth.</p>
+          <p class="hero-subtitle">Discover curated global opportunities, track your applications, and connect with top employers.</p>
         </div>
 
-        <!-- Features list -->
-        <div class="features-list">
-          <div class="feature-item">
-            <div class="feature-icon">
-              <i class="fa-solid fa-briefcase"></i>
-            </div>
-            <div class="feature-text-block">
-              <h3 class="feature-item-title">Smart Job Search</h3>
-              <p class="feature-item-desc">Browse thousands of curated active vacancies matched to your unique profile.</p>
-            </div>
-          </div>
-          
-          <div class="feature-item">
-            <div class="feature-icon">
-              <i class="fa-solid fa-chart-line"></i>
-            </div>
-            <div class="feature-text-block">
-              <h3 class="feature-item-title">Application Tracking</h3>
-              <p class="feature-item-desc">Monitor your application status from submission to hire with live updates.</p>
-            </div>
-          </div>
-
-          <div class="feature-item">
-            <div class="feature-icon">
-              <i class="fa-solid fa-user-tie"></i>
-            </div>
-            <div class="feature-text-block">
-              <h3 class="feature-item-title">Direct Recruitment</h3>
-              <p class="feature-item-desc">Interact directly with verified recruiters and stand out from the crowd.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Stats Grid (floating visual badges) -->
-        <div class="stats-badge-grid">
-          <div class="stat-badge">
-            <span class="stat-num">10K+</span>
-            <span class="stat-label">Active Vacancies</span>
-          </div>
-          <div class="stat-badge">
-            <span class="stat-num">500+</span>
-            <span class="stat-label">Verified Employers</span>
-          </div>
+        <!-- Career Portal Vector Illustration -->
+        <div class="vector-illustration-container">
+          <img src="assets/img/career-vector.svg" alt="Job Search Portal" class="career-vector-img" />
         </div>
       </div>
     </div>
@@ -77,17 +38,18 @@
     <div class="form-pane">
       <div class="form-scroll-wrapper">
         <div class="form-card-container">
-          <!-- Mobile logo (only shown when screen is small) -->
+          <!-- Mobile logo (only shown on smaller screens) -->
           <div class="mobile-logo-header">
             <img src="assets/img/brand/pixelmind-logo.svg" alt="PixelMind Logo" class="mobile-brand-logo" />
           </div>
 
           <div class="form-header">
+            <div class="badge-pill">Candidate Portal</div>
             <h2 class="form-title">Candidate Sign In</h2>
-            <p class="form-subtitle">Enter your credentials to access your personal dashboard.</p>
+            <p class="form-subtitle">Enter your credentials to access your candidate dashboard.</p>
           </div>
 
-          <form [formGroup]="loginForm" (ngSubmit)="login()" class="auth-form">
+          <form [formGroup]="loginForm" (ngSubmit)="login()" class="auth-form" novalidate>
             <!-- Username Input -->
             <div class="form-input-group" [class.has-error]="loginForm.get('username').invalid && loginForm.get('username').touched">
               <label for="username" class="input-label">Username</label>

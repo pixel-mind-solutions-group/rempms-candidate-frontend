@@ -1,0 +1,349 @@
+<!-- Floating AI Assistant Button (Bottom-Right) -->
+<div class="ai-assistant-wrapper">
+  <button
+    type="button"
+    class="floating-ai-btn"
+    [class.active]="isOpen"
+    (click)="toggleChat()"
+    aria-label="Ask AI Assistant"
+  >
+    <div class="btn-icon-wrapper">
+      <i class="fa-solid fa-wand-magic-sparkles ai-sparkle-icon" *ngIf="!isOpen"></i>
+      <i class="fa-solid fa-xmark close-icon" *ngIf="isOpen && !isMinimized"></i>
+      <i class="fa-solid fa-comment-dots dots-icon" *ngIf="isOpen && isMinimized"></i>
+    </div>
+
+    <!-- Pulsing Notification Badge -->
+    <span class="unread-badge" *ngIf="unreadCount > 0 && !isOpen">
+      <span class="badge-dot"></span>
+      {{ unreadCount }}
+    </span>
+
+    <!-- Hover Tooltip -->
+    <span class="ai-tooltip" *ngIf="!isOpen">
+      Ask AI Assistant
+      <span class="tooltip-arrow"></span>
+    </span>
+  </button>
+
+  <!-- AI Conversation Window -->
+  <div
+    class="ai-chat-window"
+    *ngIf="isOpen"
+    [class.minimized]="isMinimized"
+    role="dialog"
+    aria-label="Candidate AI Assistant Window"
+  >
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <div class="header-identity">
+        <div class="avatar-box">
+          <div class="avatar-ring">
+            <i class="fa-solid fa-robot avatar-icon"></i>
+          </div>
+          <span class="status-indicator-dot" title="Online"></span>
+        </div>
+
+        <div class="title-meta">
+          <div class="name-row">
+            <h3 class="assistant-name">Candidate Assistant</h3>
+            <span class="badge-online">Online</span>
+          </div>
+          <p class="assistant-subtitle">Here to help with your application</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button
+          type="button"
+          class="hdr-action-btn"
+          (click)="toggleMinimize()"
+          [title]="isMinimized ? 'Expand' : 'Minimize'"
+        >
+          <i class="fa-solid" [class.fa-minus]="!isMinimized" [class.fa-chevron-up]="isMinimized"></i>
+        </button>
+        <button
+          type="button"
+          class="hdr-action-btn close-btn"
+          (click)="closeChat()"
+          title="Close"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Body Container (Hidden when Minimized) -->
+    <div class="chat-body" *ngIf="!isMinimized">
+      <!-- Scrollable Message Area -->
+      <div class="messages-container" #scrollContainer>
+        <!-- Quick Starter Questions Section -->
+        <div class="quick-questions-panel" *ngIf="messages.length <= 1">
+          <p class="quick-title">
+            <i class="fa-solid fa-bolt"></i> Popular Questions
+          </p>
+          <div class="quick-chips-grid">
+            <button
+              type="button"
+              class="quick-chip"
+              *ngFor="let q of quickQuestions"
+              (click)="selectQuestion(q.query)"
+            >
+              {{ q.label }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Render Messages -->
+        <div class="message-stream">
+          <div
+            *ngFor="let msg of messages"
+            class="message-row"
+            [class.from-user]="msg.sender === 'user'"
+            [class.from-assistant]="msg.sender === 'assistant'"
+          >
+            <!-- Assistant Avatar -->
+            <div class="msg-avatar" *ngIf="msg.sender === 'assistant'">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+
+            <!-- Message Bubble Content -->
+            <div class="msg-bubble-wrapper">
+              <div class="msg-bubble">
+                <!-- Message Text with paragraph formatting -->
+                <p class="bubble-text" [innerHTML]="msg.text"></p>
+
+                <!-- RICH CONTENT 1: Job Vacancy Cards -->
+                <div class="rich-jobs-container" *ngIf="msg.type === 'jobs' && msg.jobsData">
+                  <div class="job-card-item" *ngFor="let job of msg.jobsData">
+                    <div class="job-card-top">
+                      <div>
+                        <h4 class="job-title">{{ job.title }}</h4>
+                        <p class="job-employer">
+                          <i class="fa-solid fa-building"></i> {{ job.employer }}
+                        </p>
+                      </div>
+                      <span class="job-status-pill">{{ job.status }}</span>
+                    </div>
+
+                    <div class="job-meta-row">
+                      <span class="meta-tag">
+                        <i class="fa-solid fa-location-dot"></i> {{ job.location }}
+                      </span>
+                      <span class="meta-tag">
+                        <i class="fa-solid fa-briefcase"></i> {{ job.experience }}
+                      </span>
+                    </div>
+
+                    <div class="job-skills-row">
+                      <span class="skill-badge" *ngFor="let skill of job.skills">{{ skill }}</span>
+                    </div>
+
+                    <div class="job-card-actions">
+                      <button type="button" class="btn-job-action secondary" (click)="viewJobDetails(job)">
+                        <i class="fa-solid fa-eye"></i> View Job
+                      </button>
+                      <button type="button" class="btn-job-action primary" (click)="applyJob(job)">
+                        <i class="fa-solid fa-paper-plane"></i> Apply
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- RICH CONTENT 2: Application Status Progress Timeline -->
+                <div class="rich-application-container" *ngIf="msg.type === 'application_status' && msg.applicationData">
+                  <div class="application-header-box">
+                    <div class="app-info">
+                      <span class="app-ref">{{ msg.applicationData.refNo }}</span>
+                      <h4 class="app-position">{{ msg.applicationData.position }}</h4>
+                      <p class="app-company">{{ msg.applicationData.company }}</p>
+                    </div>
+                    <div class="current-stage-badge">
+                      <span>Current Stage:</span>
+                      <strong>{{ msg.applicationData.currentStage }}</strong>
+                    </div>
+                  </div>
+
+                  <!-- Vertical Progress Timeline -->
+                  <div class="timeline-stepper">
+                    <div
+                      class="timeline-step"
+                      *ngFor="let stg of msg.applicationData.stages; let idx = index; let last = last"
+                      [class.step-completed]="stg.status === 'completed'"
+                      [class.step-current]="stg.status === 'current'"
+                      [class.step-upcoming]="stg.status === 'upcoming'"
+                    >
+                      <div class="step-indicator-wrapper">
+                        <div class="step-circle">
+                          <i class="fa-solid fa-check check-icon" *ngIf="stg.status === 'completed'"></i>
+                          <span class="current-dot" *ngIf="stg.status === 'current'"></span>
+                          <span class="upcoming-dot" *ngIf="stg.status === 'upcoming'"></span>
+                        </div>
+                        <div class="step-line" *ngIf="!last"></div>
+                      </div>
+
+                      <div class="step-content">
+                        <div class="step-header">
+                          <span class="step-name">{{ stg.name }}</span>
+                          <span class="step-date" *ngIf="stg.date">{{ stg.date }}</span>
+                        </div>
+                        <p class="step-note" *ngIf="stg.note">{{ stg.note }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- RICH CONTENT 3: Interview Details Card -->
+                <div class="rich-interview-container" *ngIf="msg.type === 'interview' && msg.interviewData">
+                  <div class="interview-card">
+                    <div class="interview-card-header">
+                      <div class="int-title-box">
+                        <span class="int-badge-upcoming">
+                          <i class="fa-solid fa-calendar-check"></i> {{ msg.interviewData.status }}
+                        </span>
+                        <h4 class="int-title">{{ msg.interviewData.title }}</h4>
+                      </div>
+                    </div>
+
+                    <div class="int-details-grid">
+                      <div class="int-detail-item">
+                        <span class="detail-label"><i class="fa-regular fa-calendar"></i> Date:</span>
+                        <span class="detail-value">{{ msg.interviewData.date }}</span>
+                      </div>
+                      <div class="int-detail-item">
+                        <span class="detail-label"><i class="fa-regular fa-clock"></i> Time:</span>
+                        <span class="detail-value">{{ msg.interviewData.time }}</span>
+                      </div>
+                      <div class="int-detail-item">
+                        <span class="detail-label"><i class="fa-solid fa-video"></i> Format:</span>
+                        <span class="detail-value">{{ msg.interviewData.interviewType }}</span>
+                      </div>
+                      <div class="int-detail-item">
+                        <span class="detail-label"><i class="fa-solid fa-user-tie"></i> Panel:</span>
+                        <span class="detail-value">{{ msg.interviewData.interviewer }}</span>
+                      </div>
+                    </div>
+
+                    <!-- Preparation Guidelines Checklist -->
+                    <div class="int-prep-box" *ngIf="msg.interviewData.prepTips.length > 0">
+                      <span class="prep-header">
+                        <i class="fa-solid fa-lightbulb"></i> Preparation Guidelines:
+                      </span>
+                      <ul class="prep-list">
+                        <li *ngFor="let tip of msg.interviewData.prepTips">
+                          {{ tip }}
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="int-actions-row">
+                      <button
+                        type="button"
+                        class="btn-int-action primary"
+                        (click)="joinInterview(msg.interviewData)"
+                      >
+                        <i class="fa-solid fa-video"></i> Access Session Link
+                      </button>
+                      <button
+                        type="button"
+                        class="btn-int-action secondary"
+                        (click)="selectQuestion('What should I prepare for my interview?')"
+                      >
+                        <i class="fa-solid fa-book-open"></i> Prep Guide
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- RICH CONTENT 4: Recruitment Process Roadmap -->
+                <div class="rich-process-container" *ngIf="msg.type === 'process' && msg.processData">
+                  <div class="process-card">
+                    <div class="process-header">
+                      <h4 class="process-title">{{ msg.processData.title }}</h4>
+                      <span class="duration-badge">
+                        <i class="fa-solid fa-hourglass-half"></i> {{ msg.processData.totalExpectedDuration }}
+                      </span>
+                    </div>
+
+                    <div class="process-steps-list">
+                      <div class="process-step-item" *ngFor="let pstg of msg.processData.stages">
+                        <div class="pstg-header">
+                          <span class="pstg-name">{{ pstg.name }}</span>
+                          <span class="pstg-duration">{{ pstg.expectedDuration }}</span>
+                        </div>
+                        <p class="pstg-desc">{{ pstg.description }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Timestamp -->
+                <span class="msg-timestamp">
+                  {{ msg.timestamp | date:'shortTime' }}
+                </span>
+              </div>
+
+              <!-- Suggested Follow-up Questions Chips -->
+              <div class="suggested-chips-container" *ngIf="msg.suggestedQuestions && msg.suggestedQuestions.length > 0">
+                <span class="suggested-label">Suggested follow-ups:</span>
+                <div class="suggested-chips-list">
+                  <button
+                    type="button"
+                    class="suggested-chip"
+                    *ngFor="let sug of msg.suggestedQuestions"
+                    (click)="selectQuestion(sug)"
+                  >
+                    {{ sug }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Typing Indicator -->
+          <div class="message-row from-assistant" *ngIf="isTyping">
+            <div class="msg-avatar">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+            <div class="msg-bubble-wrapper">
+              <div class="typing-bubble">
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Input Footer -->
+      <div class="chat-footer">
+        <form (ngSubmit)="submitMessage()" class="chat-form" novalidate>
+          <div class="input-container">
+            <input
+              type="text"
+              name="candidateQuery"
+              class="chat-input-control"
+              [(ngModel)]="inputText"
+              (keydown)="onInputKeyDown($event)"
+              placeholder="Ask me anything about your application..."
+              autocomplete="off"
+              [disabled]="isTyping"
+            />
+            <button
+              type="submit"
+              class="chat-send-btn"
+              [disabled]="!inputText.trim() || isTyping"
+              aria-label="Send Message"
+            >
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+        </form>
+        <div class="footer-caption">
+          <span>PixelMind AI Candidate Assistant • Press <strong>Enter</strong> to send</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

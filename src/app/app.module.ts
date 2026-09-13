@@ -25,6 +25,7 @@ import {
   DefaultHeaderComponent,
   DefaultLayoutComponent,
 } from './containers';
+import { CandidateAiAssistantComponent } from './components/candidate-ai-assistant/candidate-ai-assistant.component';
 
 import {
   AvatarModule,
@@ -61,6 +62,7 @@ const APP_CONTAINERS = [
     BrowserModule,
     BrowserAnimationsModule, // ✅ Required for Toastr animations
     AppRoutingModule,
+    CandidateAiAssistantComponent,
 
     // ✅ CoreUI modules
     AvatarModule,

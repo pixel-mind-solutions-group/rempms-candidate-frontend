@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, catchError, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -9,25 +9,33 @@ import { UserRegisterDTO } from '../../../model/user/register/UserRegisterDTO';
   providedIn: 'root',
 })
 export class UserService {
-  private userApi = `${environment.loginUrl}` + '/user/v1';
+  private userApi = `${environment.loginUrl}` + '/pixel-auth-adapter/auth';
   private userRegisterApi = `${environment.loginUrl}` + '/user/pixel-hire/v1';
 
   constructor(private http: HttpClient) {}
 
   getUserPermissionList(): Observable<any> {
-    let userDetailsApi = this.userApi + '/get-user-details';
-    const data = {
-      uuid: environment.uuid,
-    };
+
+    let userDetailsApi = this.userApi + '/user-details';
+
+    const accessToken = sessionStorage.getItem('accessToken');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`
+    });
 
     console.info(
       'Calling iam service to get user permissions list by token and uuid...',
     );
-    return this.http.post<CommonResponse>(userDetailsApi, data).pipe(
+
+    return this.http.get<CommonResponse>(
+      userDetailsApi,
+      { headers }
+    ).pipe(
       map((response) => response),
       catchError((error) => {
         return this.handleError(error);
-      }),
+      })
     );
   }
 

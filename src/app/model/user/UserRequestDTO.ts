@@ -1,5 +1,5 @@
 export interface UserRequestDTO {
-  userName: string;
+  username: string;
   password: string;
-  uuid: string;
+  application_uuid: string;
 }

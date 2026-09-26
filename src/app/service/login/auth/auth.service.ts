@@ -9,15 +9,15 @@ import { UserRequestDTO } from '../../../model/user/UserRequestDTO';
   providedIn: 'root',
 })
 export class AuthService {
-  private authApi = `${environment.loginUrl}` + '/auth/user/v1';
+  private authApi = `${environment.loginUrl}` + '/pixel-auth-adapter/auth';
 
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<any> {
     const userRequest: UserRequestDTO = {
-      userName: username,
+      username: username,
       password: password,
-      uuid: environment.uuid,
+      application_uuid: environment.uuid,
     };
     let loginAuthApi = this.authApi + '/token';
     console.info(

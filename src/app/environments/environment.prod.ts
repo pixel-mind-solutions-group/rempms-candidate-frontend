@@ -2,7 +2,7 @@ export const environment = {
   production: true,
 
   baseUrl: 'http://localhost:8081/api',
-  loginUrl: 'http://localhost:9001/api/iam',
+  loginUrl: 'http://localhost:9001/api/pixel-auth-adapter',
 
-  uuid: 'e7a75653-1d2c-4fbd-a0f7-2f7b7b9bb2f8',
+  uuid: 'ddb9a317-69d2-4bcd-866e-bf81ef00b9b3',
 };

@@ -1,13 +1,13 @@
 import { UserHasApplicationScopeHasUserRoleResponseDTO } from '../userHasApplicationScopeHasUserRole/UserHasApplicationScopeHasUserRoleResponseDTO';
 
 export interface UserDetailsResponseDTO {
-  idUser: number;
+  userId: number;
+  username: string;
   email: string;
-  isEmailVerified: boolean;
   firstName: string;
   lastName: string;
-  userName: string;
-  active: boolean;
-  failCount: number;
-  userHasApplicationScopeHasUserRole: UserHasApplicationScopeHasUserRoleResponseDTO;
+  realm: string;
+  application: string;
+  role: string;
+  componentList: string[];
 }

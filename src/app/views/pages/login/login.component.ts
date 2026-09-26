@@ -26,7 +26,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { AuthStatus } from '../../../enums/AuthStatus';
 import { UserRoles } from '../../../enums/UserRole';
 import { UserDetailsResponseDTO } from '../../../model/user/user-details/UserDetailsResponseDTO';
-import { VerifyEmailService } from 'src/app/service/verifyEmail/verify-email.service';
+import { VerifyEmailService } from '../../../service/verifyEmail/verify-email.service';
 
 @Component({
   selector: 'app-login',
@@ -61,8 +61,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
-    private verifyEmailService: VerifyEmailService
-  ) { }
+    private verifyEmailService: VerifyEmailService,
+  ) {}
 
   private unsubscribe$ = new Subject<void>();
 
@@ -85,7 +85,29 @@ export class LoginComponent implements OnInit {
   login() {
     if (this.loginForm.valid) {
       this.pageLoader();
-      this.router.navigate(['/job-vacancies']);
+
+      const username = this.loginForm.get('username')?.value;
+      const password = this.loginForm.get('password')?.value;
+
+      this.authService.login(username, password).subscribe({
+        next: (response) => {
+          // Get tokens from response
+          const accessToken = response.data.accessToken;
+          const refreshToken = response.data.refreshToken;
+
+          // Store tokens in session storage
+          sessionStorage.setItem('accessToken', accessToken);
+          sessionStorage.setItem('refreshToken', refreshToken);
+
+          this.getUserPermissionList();
+
+          // this.router.navigate(['/job-vacancies']);
+        },
+        error: (error) => {
+          this.loading = false;
+          console.error('Login failed', error);
+        },
+      });
     } else {
       this.loginForm.markAllAsTouched();
     }
@@ -98,18 +120,10 @@ export class LoginComponent implements OnInit {
   getUserPermissionList() {
     this.userService.getUserPermissionList().subscribe(
       (response) => {
-        if (response.status === 'OK') {
+        if (response.status === 200) {
           sessionStorage.setItem('userDetails', JSON.stringify(response.data));
-          const userDetails: UserDetailsResponseDTO = response.data;
 
-          this.loading = false;
-
-          if (
-            userDetails.userHasApplicationScopeHasUserRole.userRole.role ===
-            UserRoles.CANDIDATE ||
-            userDetails.userHasApplicationScopeHasUserRole.userRole.role ===
-            UserRoles.ADMIN
-          ) {
+          if (response.data != null && response.data != undefined) {
             this.authService.setAuthenticationStatus(AuthStatus.YES);
             this.router.navigate(['/job-vacancies']);
           } else {
@@ -129,13 +143,16 @@ export class LoginComponent implements OnInit {
             confirmButtonText: 'OK',
           });
         }
+        this.loading = false;
       },
       (error) => {
         this.loading = false;
         if (error.status === 500) {
           Swal.fire({
             title: 'Email Verification Failed',
-            text: error.error?.details?.[1] + ' Do you want to resend the verification url?',
+            text:
+              error.error?.details?.[1] +
+              ' Do you want to resend the verification url?',
             icon: 'error',
             showCancelButton: true,
             confirmButtonText: 'Resend Url',
@@ -147,6 +164,7 @@ export class LoginComponent implements OnInit {
             }
           });
         } else {
+          this.loading = false;
           Swal.fire({
             title: 'Error!',
             text: 'Network Error.',
@@ -160,42 +178,43 @@ export class LoginComponent implements OnInit {
 
   resendVerificationEmail() {
     const username: string = this.loginForm.value.username;
-    this.verifyEmailService.resendVerificationEmail(username).pipe(takeUntil(this.unsubscribe$)).subscribe(
-      (response) => {
-        if (response.status === 'OK') {
-          Swal.fire({
-            title: 'Success!',
-            text: 'Verification email resent successfully. Please check your inbox.',
-            icon: 'success',
-            confirmButtonText: 'OK',
-          });
-
-        } else if (response.status === 'NO_CONTENT') {
+    this.verifyEmailService
+      .resendVerificationEmail(username)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+        (response) => {
+          if (response.status === 'OK') {
+            Swal.fire({
+              title: 'Success!',
+              text: 'Verification email resent successfully. Please check your inbox.',
+              icon: 'success',
+              confirmButtonText: 'OK',
+            });
+          } else if (response.status === 'NO_CONTENT') {
+            Swal.fire({
+              title: 'Error!',
+              text: response.message,
+              icon: 'error',
+              confirmButtonText: 'OK',
+            });
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text: 'Something went wrong. Contact support if the problem continues.',
+              icon: 'error',
+              confirmButtonText: 'OK',
+            });
+          }
+        },
+        (error) => {
           Swal.fire({
             title: 'Error!',
-            text: response.message,
+            text: 'Failed to resend verification email. Contact support if the problem continues.',
             icon: 'error',
             confirmButtonText: 'OK',
           });
-
-        } else {
-          Swal.fire({
-            title: 'Error!',
-            text: 'Something went wrong. Contact support if the problem continues.',
-            icon: 'error',
-            confirmButtonText: 'OK',
-          });
-        }
-      },
-      (error) => {
-        Swal.fire({
-          title: 'Error!',
-          text: 'Failed to resend verification email. Contact support if the problem continues.',
-          icon: 'error',
-          confirmButtonText: 'OK',
-        });
-      },
-    );
+        },
+      );
   }
 
   pageLoader() {
